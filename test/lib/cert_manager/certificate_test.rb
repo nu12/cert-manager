@@ -1,10 +1,10 @@
 require "test_helper"
 require "cert_manager/certificate"
-require 'openssl'
+require "openssl"
 
 class CertManagerCertificateTest < ActionDispatch::IntegrationTest
   test "methods" do
-    #assert CertManager::Certificate.respond_to? :create
+    # assert CertManager::Certificate.respond_to? :create
     assert CertManager::Certificate.respond_to? :create_root
     assert CertManager::Certificate.respond_to? :create_intermediate
     assert CertManager::Certificate.respond_to? :create_server
@@ -15,9 +15,9 @@ class CertManagerCertificateTest < ActionDispatch::IntegrationTest
 
   test "create_root" do
     key = CertManager::Key.parse(ModelStub.new, "cert-manager")
-    raw = CertManager::Certificate.create_root(key, '/C=CA/ST=Quebec/L=Montreal/O=nu12/OU=cert-manager/CN=Root CA')
+    raw = CertManager::Certificate.create_root(key, "/C=CA/ST=Quebec/L=Montreal/O=nu12/OU=cert-manager/CN=Root CA")
     assert raw.include? "-----BEGIN CERTIFICATE-----\n"
-    
+
     cert = OpenSSL::X509::Certificate.new raw
     assert_equal 4, cert.extensions.size
     assert_equal "subjectKeyIdentifier", cert.extensions[0].oid
@@ -36,9 +36,9 @@ class CertManagerCertificateTest < ActionDispatch::IntegrationTest
     cert_stub = CertificateStub.new
     root_cert = CertManager::Certificate.parse(cert_stub)
     root_key = CertManager::Key.parse(cert_stub.key, "cert-manager")
-    raw = CertManager::Certificate.create_intermediate(key, '/C=CA/ST=Quebec/L=Montreal/O=nu12/OU=cert-manager/CN=Intermediate CA', root_cert, root_key)
+    raw = CertManager::Certificate.create_intermediate(key, "/C=CA/ST=Quebec/L=Montreal/O=nu12/OU=cert-manager/CN=Intermediate CA", root_cert, root_key)
     assert raw.include? "-----BEGIN CERTIFICATE-----\n"
-    
+
     cert = OpenSSL::X509::Certificate.new raw
     assert_equal 4, cert.extensions.size
     assert_equal "subjectKeyIdentifier", cert.extensions[0].oid
@@ -57,9 +57,9 @@ class CertManagerCertificateTest < ActionDispatch::IntegrationTest
     cert_stub = CertificateStub.new
     inter_cert = CertManager::Certificate.parse(cert_stub)
     inter_key = CertManager::Key.parse(cert_stub.key, "cert-manager")
-    raw = CertManager::Certificate.create_server(key, '/C=CA/ST=Quebec/L=Montreal/O=nu12/OU=cert-manager/CN=cert-manager.github.nu12', inter_cert, inter_key)
+    raw = CertManager::Certificate.create_server(key, "/C=CA/ST=Quebec/L=Montreal/O=nu12/OU=cert-manager/CN=cert-manager.github.nu12", inter_cert, inter_key)
     assert raw.include? "-----BEGIN CERTIFICATE-----\n"
-    
+
     cert = OpenSSL::X509::Certificate.new raw
     assert_equal 5, cert.extensions.size
     assert_equal "subjectKeyIdentifier", cert.extensions[0].oid
@@ -79,7 +79,7 @@ class CertManagerCertificateTest < ActionDispatch::IntegrationTest
     cert = CertManager::Certificate.import(File.read("test/fixtures/files/certificate.pem"))
     assert cert.include? "-----BEGIN CERTIFICATE-----\n"
   end
-  
+
   test "parse" do
     cert = CertManager::Certificate.parse(CertificateStub.new)
     assert cert.respond_to? :content
