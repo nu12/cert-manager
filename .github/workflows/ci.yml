@@ -18,3 +18,4 @@ jobs:
       ruby-version: .ruby-version
       docker-tag: 'latest'
     secrets: inherit
+
