@@ -1,4 +1,4 @@
-require 'openssl'
+require "openssl"
 
 class CertManager::Certificate
   attr_accessor(:content)
@@ -20,13 +20,13 @@ class CertManager::Certificate
     extension_factory.subject_certificate = ca_cert
     extension_factory.issuer_certificate = ca_cert
 
-    ca_cert.add_extension    extension_factory.create_extension('subjectKeyIdentifier', 'hash')
-    ca_cert.add_extension    extension_factory.create_extension('authorityKeyIdentifier', 'keyid,issuer')
-    ca_cert.add_extension    extension_factory.create_extension('basicConstraints', 'CA:TRUE', true)
-    ca_cert.add_extension    extension_factory.create_extension('keyUsage', 'cRLSign,keyCertSign', true)
+    ca_cert.add_extension    extension_factory.create_extension("subjectKeyIdentifier", "hash")
+    ca_cert.add_extension    extension_factory.create_extension("authorityKeyIdentifier", "keyid,issuer")
+    ca_cert.add_extension    extension_factory.create_extension("basicConstraints", "CA:TRUE", true)
+    ca_cert.add_extension    extension_factory.create_extension("keyUsage", "cRLSign,keyCertSign", true)
 
     # CA is self-signed
-    ca_cert.sign ca_key, OpenSSL::Digest::SHA256.new 
+    ca_cert.sign ca_key, OpenSSL::Digest::SHA256.new
     ca_cert.to_pem
   end
 
@@ -56,10 +56,10 @@ class CertManager::Certificate
     extension_factory.subject_certificate = inter_cert
     extension_factory.issuer_certificate = root_cert.content
 
-    inter_cert.add_extension    extension_factory.create_extension('subjectKeyIdentifier', 'hash')
-    inter_cert.add_extension    extension_factory.create_extension('authorityKeyIdentifier', 'keyid,issuer')
-    inter_cert.add_extension    extension_factory.create_extension('basicConstraints', 'CA:TRUE,pathlen:0', true)
-    inter_cert.add_extension    extension_factory.create_extension('keyUsage', 'digitalSignature,cRLSign,keyCertSign', true)
+    inter_cert.add_extension    extension_factory.create_extension("subjectKeyIdentifier", "hash")
+    inter_cert.add_extension    extension_factory.create_extension("authorityKeyIdentifier", "keyid,issuer")
+    inter_cert.add_extension    extension_factory.create_extension("basicConstraints", "CA:TRUE,pathlen:0", true)
+    inter_cert.add_extension    extension_factory.create_extension("keyUsage", "digitalSignature,cRLSign,keyCertSign", true)
 
     inter_cert.sign root_key.content, OpenSSL::Digest::SHA256.new
     inter_cert.to_pem
@@ -90,11 +90,11 @@ class CertManager::Certificate
     extension_factory.subject_certificate = server_cert
     extension_factory.issuer_certificate = inter_cert.content
 
-    server_cert.add_extension    extension_factory.create_extension('subjectKeyIdentifier', 'hash')
-    server_cert.add_extension    extension_factory.create_extension('authorityKeyIdentifier', 'keyid,issuer')
-    server_cert.add_extension    extension_factory.create_extension('basicConstraints', 'CA:FALSE')
-    server_cert.add_extension    extension_factory.create_extension('keyUsage', 'keyEncipherment,digitalSignature', true)
-    server_cert.add_extension    extension_factory.create_extension('extendedKeyUsage', 'serverAuth')
+    server_cert.add_extension    extension_factory.create_extension("subjectKeyIdentifier", "hash")
+    server_cert.add_extension    extension_factory.create_extension("authorityKeyIdentifier", "keyid,issuer")
+    server_cert.add_extension    extension_factory.create_extension("basicConstraints", "CA:FALSE")
+    server_cert.add_extension    extension_factory.create_extension("keyUsage", "keyEncipherment,digitalSignature", true)
+    server_cert.add_extension    extension_factory.create_extension("extendedKeyUsage", "serverAuth")
 
     server_cert.sign inter_key.content, OpenSSL::Digest::SHA256.new
     server_cert.to_pem
@@ -107,6 +107,6 @@ class CertManager::Certificate
   def self.parse(model)
     obj = allocate
     obj.content = OpenSSL::X509::Certificate.new model.content
-    return obj
+    obj
   end
 end

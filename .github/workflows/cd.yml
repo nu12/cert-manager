@@ -1,0 +1,14 @@
+name: Release
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+permissions:
+  contents: write
+
+jobs:
+  cd:
+    name: Release
+    uses: nu12/templates/.github/workflows/rails-release.v1.yml@main
+    secrets: inherit

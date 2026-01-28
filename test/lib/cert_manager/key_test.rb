@@ -7,7 +7,7 @@ class CertManagerKeyTest < ActionDispatch::IntegrationTest
     assert CertManager::Key.respond_to? :import
     assert CertManager::Key.respond_to? :parse
   end
-  
+
   test "create" do
     key = CertManager::Key.create(512, "cert-manager")
     assert key.include? "-----BEGIN RSA PRIVATE KEY-----\nProc-Type: 4,ENCRYPTED"
