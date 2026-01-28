@@ -380,6 +380,7 @@ GEM
     websocket-extensions (0.1.5)
     xpath (3.2.0)
       nokogiri (~> 1.8)
+    yaag (0.4.0)
     zeitwerk (2.7.4)
 
 PLATFORMS
@@ -419,6 +420,7 @@ DEPENDENCIES
   turbo-rails
   tzinfo-data
   web-console
+  yaag (~> 0.4.0)
 
 BUNDLED WITH
    2.5.11
