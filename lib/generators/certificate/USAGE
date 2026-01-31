@@ -1,0 +1,8 @@
+Description:
+    Explain the generator
+
+Example:
+    bin/rails generate certificate --country CA --state QC --location Montreal --organization nu12 --organization-unit cert-manager --common-name my-server.domain
+
+    This will create:
+        what/will/it/create
