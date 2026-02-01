@@ -4,7 +4,7 @@ require "openssl"
 
 class CertificateGeneratorTest < Rails::Generators::TestCase
   destination_path = "tmp/generators"
-  options = %w(--country CA --state Quebec --location Montreal --organization nu12 --organization-unit cert-manager --common-name generator.test)
+  options = %w[--country CA --state Quebec --location Montreal --organization nu12 --organization-unit cert-manager --common-name generator.test]
 
   tests CertificateGenerator
   destination Rails.root.join(destination_path)
@@ -38,9 +38,9 @@ class CertificateGeneratorTest < Rails::Generators::TestCase
     cert = OpenSSL::X509::Certificate.new(File.read("#{destination_path}/storage/generator.test/server/cert.pem"))
     intermediate = OpenSSL::X509::Certificate.new(File.read("#{destination_path}/storage/generator.test/intermediate/cert.pem"))
     root = OpenSSL::X509::Certificate.new(File.read("#{destination_path}/storage/generator.test/root/cert.pem"))
-    assert store.verify(cert, [intermediate, root])
+    assert store.verify(cert, [ intermediate, root ])
 
     chain = OpenSSL::X509::Certificate.new(File.read("#{destination_path}/storage/generator.test/server/chain.pem"))
-    assert store.verify(cert, [chain])
+    assert store.verify(cert, [ chain ])
   end
 end

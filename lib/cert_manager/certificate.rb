@@ -1,7 +1,6 @@
 require "openssl"
 
 class CertManager::Certificate
-
   def self.create_root(key, name, serial = 0, version = 0, expires_after_days = 3650)
     ca_name = OpenSSL::X509::Name.parse name
     ca_cert = OpenSSL::X509::Certificate.new
