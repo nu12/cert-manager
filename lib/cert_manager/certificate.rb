@@ -18,7 +18,7 @@ class CertManager::Certificate
     extension_factory.issuer_certificate = ca_cert
 
     ca_cert.add_extension    extension_factory.create_extension("subjectKeyIdentifier", "hash")
-    ca_cert.add_extension    extension_factory.create_extension("authorityKeyIdentifier", "keyid,issuer")
+    ca_cert.add_extension    extension_factory.create_extension("authorityKeyIdentifier", "keyid:always,issuer")
     ca_cert.add_extension    extension_factory.create_extension("basicConstraints", "CA:TRUE", true)
     ca_cert.add_extension    extension_factory.create_extension("keyUsage", "cRLSign,keyCertSign", true)
 
