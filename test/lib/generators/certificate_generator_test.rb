@@ -4,7 +4,7 @@ require "openssl"
 
 class CertificateGeneratorTest < Rails::Generators::TestCase
   destination_path = "tmp/generators"
-  options = %w(--country CA --state Quebec --location Montreal --organization nu12 --organization-unit cert-manager --common-name generator.test --key-passphrase cert-manager)
+  options = %w(--country CA --state Quebec --location Montreal --organization nu12 --organization-unit cert-manager --common-name generator.test)
 
   tests CertificateGenerator
   destination Rails.root.join(destination_path)

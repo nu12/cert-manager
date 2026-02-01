@@ -1,8 +1,6 @@
 require "openssl"
 
 class CertManager::Key
-  attr_accessor(:content)
-
   def self.create(size, passphrase)
     content = OpenSSL::PKey::RSA.new size
     content.export(OpenSSL::Cipher.new("AES-128-CBC"), passphrase)
@@ -14,8 +12,6 @@ class CertManager::Key
   end
 
   def self.parse(model, passphrase)
-    obj = allocate
-    obj.content = OpenSSL::PKey::RSA.new model.content, passphrase
-    obj
+    OpenSSL::PKey::RSA.new model.content, passphrase
   end
 end

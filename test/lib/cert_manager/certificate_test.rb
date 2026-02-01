@@ -82,10 +82,9 @@ class CertManagerCertificateTest < ActionDispatch::IntegrationTest
 
   test "parse" do
     cert = CertManager::Certificate.parse(CertificateStub.new)
-    assert cert.respond_to? :content
-    assert cert.content.respond_to? :extensions
-    assert cert.content.respond_to? :verify
-    assert cert.content.respond_to? :subject
-    assert cert.content.respond_to? :issuer
+    assert cert.respond_to? :extensions
+    assert cert.respond_to? :verify
+    assert cert.respond_to? :subject
+    assert cert.respond_to? :issuer
   end
 end
