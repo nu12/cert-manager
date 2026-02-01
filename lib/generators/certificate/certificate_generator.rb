@@ -1,5 +1,6 @@
 require "fileutils"
 require "io/console"
+require "rails/generators"
 
 class CertificateGenerator < Rails::Generators::Base
   class_option :country, desc: "Country (two-letter abbreviation)", type: :string, required: true
