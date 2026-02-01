@@ -4,7 +4,7 @@ class CertManager::Certificate
   attr_accessor(:content)
 
   def self.create_root(key, name, serial = 0, version = 0, expires_after_days = 3650)
-    p key
+    ca_key = key.content
     ca_name = OpenSSL::X509::Name.parse name
     ca_cert = OpenSSL::X509::Certificate.new
     ca_cert.serial = serial
@@ -12,7 +12,7 @@ class CertManager::Certificate
     ca_cert.not_before = Time.now
     ca_cert.not_after = Time.now + (expires_after_days * 24 * 60 * 60)
 
-    ca_cert.public_key = key.public_key
+    ca_cert.public_key = ca_key.public_key
     ca_cert.subject = ca_name
     ca_cert.issuer = ca_name
 
@@ -26,7 +26,7 @@ class CertManager::Certificate
     ca_cert.add_extension    extension_factory.create_extension("keyUsage", "cRLSign,keyCertSign", true)
 
     # CA is self-signed
-    ca_cert.sign key, OpenSSL::Digest::SHA256.new
+    ca_cert.sign ca_key, OpenSSL::Digest::SHA256.new
     ca_cert.to_pem
   end
 
