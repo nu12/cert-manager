@@ -20,8 +20,7 @@ class CertManagerKeyTest < ActionDispatch::IntegrationTest
 
   test "parse" do
     key = CertManager::Key.parse(ModelStub.new, "cert-manager")
-    assert key.respond_to? :content
-    assert key.content.respond_to? :public_to_pem
-    assert key.content.respond_to? :private_to_pem
+    assert key.respond_to? :public_to_pem
+    assert key.respond_to? :private_to_pem
   end
 end

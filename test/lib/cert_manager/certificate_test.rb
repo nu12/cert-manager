@@ -9,7 +9,6 @@ class CertManagerCertificateTest < ActionDispatch::IntegrationTest
     assert CertManager::Certificate.respond_to? :create_intermediate
     assert CertManager::Certificate.respond_to? :create_server
     assert CertManager::Certificate.respond_to? :import
-    # assert CertManager::Certificate.respond_to? :sign
     assert CertManager::Certificate.respond_to? :parse
   end
 
@@ -23,7 +22,7 @@ class CertManagerCertificateTest < ActionDispatch::IntegrationTest
     assert_equal "subjectKeyIdentifier", cert.extensions[0].oid
     assert_equal "BE:E2:A0:49:49:50:6B:3B:C8:04:BA:7F:DC:62:4D:8A:DC:F0:E1:ED", cert.extensions[0].value
     assert_equal "authorityKeyIdentifier", cert.extensions[1].oid
-    assert_equal "DirName:/C=CA/ST=Quebec/L=Montreal/O=nu12/OU=cert-manager/CN=Root CA\nserial:00", cert.extensions[1].value
+    assert_equal "BE:E2:A0:49:49:50:6B:3B:C8:04:BA:7F:DC:62:4D:8A:DC:F0:E1:ED", cert.extensions[1].value
     assert_equal "basicConstraints", cert.extensions[2].oid
     assert_equal "CA:TRUE", cert.extensions[2].value
     assert_equal "keyUsage", cert.extensions[3].oid
@@ -82,10 +81,9 @@ class CertManagerCertificateTest < ActionDispatch::IntegrationTest
 
   test "parse" do
     cert = CertManager::Certificate.parse(CertificateStub.new)
-    assert cert.respond_to? :content
-    assert cert.content.respond_to? :extensions
-    assert cert.content.respond_to? :verify
-    assert cert.content.respond_to? :subject
-    assert cert.content.respond_to? :issuer
+    assert cert.respond_to? :extensions
+    assert cert.respond_to? :verify
+    assert cert.respond_to? :subject
+    assert cert.respond_to? :issuer
   end
 end
