@@ -15,7 +15,7 @@ class CertManagerCertificateTest < ActionDispatch::IntegrationTest
 
   test "create_root" do
     key = CertManager::Key.parse(ModelStub.new, "cert-manager")
-    raw = CertManager::Certificate.create_root(key, "/C=CA/ST=Quebec/L=Montreal/O=nu12/OU=cert-manager/CN=Root CA")
+    raw = CertManager::Certificate.create_root(key.content, "/C=CA/ST=Quebec/L=Montreal/O=nu12/OU=cert-manager/CN=Root CA")
     assert raw.include? "-----BEGIN CERTIFICATE-----\n"
 
     cert = OpenSSL::X509::Certificate.new raw

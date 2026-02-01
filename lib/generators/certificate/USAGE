@@ -1,8 +1,14 @@
 Description:
-    Explain the generator
+    Generates keys and certificates for root CA, intermediate CA and server
 
 Example:
-    bin/rails generate certificate --country CA --state QC --location Montreal --organization nu12 --organization-unit cert-manager --common-name my-server.domain
+    bin/rails generate certificate --country XX --state Xxxx --location Xxxxx --organization xxxx --organization-unit xxxx --common-name xxxxx.xxx.xx
 
-    This will create:
-        what/will/it/create
+    This will create 7 files, where xxxxx.xxx.xx is the common-name defined in the command:
+        storage/xxxxx.xxx.xx/root/cert.pem
+        storage/xxxxx.xxx.xx/root/key.pem
+        storage/xxxxx.xxx.xx/intermediate/cert.pem
+        storage/xxxxx.xxx.xx/intermediate/key.pem
+        storage/xxxxx.xxx.xx/server/cert.pem
+        storage/xxxxx.xxx.xx/server/key.pem
+        storage/xxxxx.xxx.xx/server/chain.pem
