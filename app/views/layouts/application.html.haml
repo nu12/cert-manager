@@ -1,0 +1,36 @@
+!!! 5
+%html
+  %head
+    %title
+      = content_for(:title) || "Cert-Manager"
+    %meta{ :name => "viewport", :content => "width=device-width,initial-scale=1" }
+    %meta{ :name => "apple-mobile-web-app-capable", :content => "yes"}
+    %meta{ :name => "mobile-web-app-capable", :content => "yes"}
+    = csrf_meta_tags
+    = csp_meta_tag
+
+    = yield :head
+
+    %link{ :rel => "icon", :href => "/icon.png", :type => "image/png"}
+    %link{ :rel => "apple-touch-icon", :href => "/icon.png"}
+
+    = stylesheet_link_tag "bootstrap", "data-turbo-track": "reload"
+    = stylesheet_link_tag "application", "data-turbo-track": "reload"
+    = javascript_include_tag "bootstrap", "data-turbo-track": "reload"
+    = javascript_importmap_tags
+  
+  %body
+    - if Current.user
+      = link_to "Sign out", session_path, data: { turbo_method: :delete }
+    %main.d-flex.flex-nowrap
+      .container.pt-5.overflow-auto
+        - if notice
+          %div.alert.alert-success.alert-dismissible.fade.show{:role => "alert"}
+            = notice
+            %button.btn-close{ :type => "button", "data-bs-dismiss" => "alert", "aria-label" => "Close"}
+        - if alert
+          %div.alert.alert-danger.alert-dismissible.fade.show{:role => "alert"}
+            = alert
+            %button.btn-close{ :type => "button", "data-bs-dismiss" => "alert", "aria-label" => "Close"}
+          
+        = yield
