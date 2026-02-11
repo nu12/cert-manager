@@ -1,6 +1,6 @@
 require "application_system_test_case"
 
-class RegistrationsTest < ApplicationSystemTestCase
+class SigninsTest < ApplicationSystemTestCase
   test "new sign in" do
     visit new_signin_url
     assert_content "Sign In"
