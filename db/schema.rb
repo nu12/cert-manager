@@ -10,7 +10,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_28_002423) do
+ActiveRecord::Schema[8.1].define(version: 2026_02_12_235628) do
+  create_table "certificates", force: :cascade do |t|
+    t.integer "certificate_id"
+    t.text "content"
+    t.datetime "created_at", null: false
+    t.datetime "expired_at"
+    t.integer "key_id", null: false
+    t.string "name"
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.index ["certificate_id"], name: "index_certificates_on_certificate_id"
+    t.index ["key_id"], name: "index_certificates_on_key_id"
+    t.index ["user_id"], name: "index_certificates_on_user_id"
+  end
+
+  create_table "keys", force: :cascade do |t|
+    t.text "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_id", null: false
+    t.index ["user_id"], name: "index_keys_on_user_id"
+  end
+
   create_table "sessions", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "ip_address"
@@ -27,5 +49,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_28_002423) do
     t.index ["email_address"], name: "index_users_on_email_address", unique: true
   end
 
+  add_foreign_key "certificates", "certificates"
+  add_foreign_key "certificates", "keys"
+  add_foreign_key "certificates", "users"
+  add_foreign_key "keys", "users"
   add_foreign_key "sessions", "users"
 end
