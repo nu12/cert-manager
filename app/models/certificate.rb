@@ -5,4 +5,3 @@ class Certificate < ApplicationRecord
   has_many :children, class_name: "Certificate", foreign_key: "certificate_id"
   belongs_to :parent, class_name: "Certificate", foreign_key: "certificate_id", optional: true
 end
-   
