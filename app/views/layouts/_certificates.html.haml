@@ -1,0 +1,24 @@
+.row
+  .col.border.border-right
+    %h2 Root
+    - Current.user.root_certificates.each do | certificate |
+      = link_to certificate.name, certificates_root_path(certificate.id)
+  .col.border.border-right
+    %h2 Intermediate
+    - if root_certificate
+      - root_certificate.children.each do | certificate |
+        = link_to certificate.name, certificates_root_intermediate_path(root_certificate.id, certificate.id)
+    - else
+      (Select root certificate)
+  .col.border.border-right
+    %h2 Server
+    - if intermediate_certificate
+      - intermediate_certificate.children.each do | certificate |
+        = link_to certificate.name, certificates_root_intermediate_server_path(root_certificate.id, intermediate_certificate.id, certificate.id)
+    - else
+      (Select intermediate certificate)
+
+%p
+  = link_to "New root certificate", "#"
+  %br
+  = link_to "Import root certificate", "#"

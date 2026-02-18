@@ -14,4 +14,11 @@ class SigninsTest < ApplicationSystemTestCase
     visit create_session_url(User.take.email_address_login_token)
     assert_content "Signed in successfully"
   end
+
+  test "sign out" do
+    visit create_session_url(User.take.email_address_login_token)
+
+    click_on "Sign out", match: :first
+    assert_content "Signed out successfully"
+  end
 end
