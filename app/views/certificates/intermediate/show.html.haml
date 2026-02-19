@@ -1,0 +1,6 @@
+%h1 Certificates
+
+= render partial: "layouts/certificates", locals: {root_certificate: @root_certificate, intermediate_certificate: @certificate}
+
+%h3
+  = "Intermediate certificate details (#{@certificate.name})"
