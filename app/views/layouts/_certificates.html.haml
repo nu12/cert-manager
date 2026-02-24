@@ -1,24 +1,41 @@
 .row
-  .col.border.border-right
+  .col.ms-3.me-3
     %h2 Root
-    - Current.user.root_certificates.each do | certificate |
-      = link_to certificate.name, certificates_root_path(certificate.id)
-  .col.border.border-right
+    = link_to "New root certificate", "#", {:class => "btn btn-sm btn-success w-100 mb-1"}
+    %br
+    = link_to "Import root certificate", "#", {:class => "btn btn-sm btn-success w-100 mb-1"}
+  .col.ms-3.me-3
     %h2 Intermediate
-    - if root_certificate
-      - root_certificate.children.each do | certificate |
-        = link_to certificate.name, certificates_root_intermediate_path(root_certificate.id, certificate.id)
-    - else
-      (Select root certificate)
-  .col.border.border-right
+    = link_to "New intermediate certificate", "#", {:class => "btn btn-sm #{ root_certificate ? 'btn-success' : 'btn-secondary' } w-100 mb-1"}
+    %br
+    = link_to "Import intermediate certificate", "#", {:class => "btn btn-sm #{ root_certificate ? 'btn-success' : 'btn-secondary' } w-100 mb-1"}
+  .col.ms-3.me-3
     %h2 Server
-    - if intermediate_certificate
-      - intermediate_certificate.children.each do | certificate |
-        = link_to certificate.name, certificates_root_intermediate_server_path(root_certificate.id, intermediate_certificate.id, certificate.id)
-    - else
-      (Select intermediate certificate)
+    = link_to "New server certificate", "#", {:class => "btn btn-sm #{ intermediate_certificate ? 'btn-success' : 'btn-secondary' } w-100 mb-1"}
+    %br
+    = link_to "Import server certificate", "#", {:class => "btn btn-sm #{ intermediate_certificate ? 'btn-success' : 'btn-secondary' } w-100 mb-1"}
 
-%p
-  = link_to "New root certificate", "#"
-  %br
-  = link_to "Import root certificate", "#"
+.row#three-columns{:style => "height: 300px"}
+  .col.pt-3.bg-white.ms-3.me-3
+    - if root_certificate
+      = link_to root_certificate.name,  certificates_root_path(root_certificate.id), {:class => "cm-active"}
+    - Current.user.root_certificates.each do | certificate |
+      = link_to certificate.name, certificates_root_path(certificate.id) unless root_certificate && certificate.id == root_certificate.id
+  .col.pt-3.bg-white.ms-3.me-3 
+    - unless root_certificate
+      (Select root certificate)
+    - else
+      - if intermediate_certificate
+        = link_to intermediate_certificate.name,  certificates_root_intermediate_path(root_certificate.id, intermediate_certificate.id), {:class => "cm-active"}
+      - root_certificate.children.each do | certificate |
+        = link_to certificate.name, certificates_root_intermediate_path(root_certificate.id, certificate.id) unless intermediate_certificate && certificate.id == intermediate_certificate.id
+  .col.pt-3.bg-white.ms-3.me-3
+    - unless intermediate_certificate
+      (Select intermediate certificate)
+    - else
+      - if server_certificate
+        = link_to server_certificate.name,  certificates_root_intermediate_server_path(root_certificate.id, intermediate_certificate.id, server_certificate.id), {:class => "cm-active"}
+      - intermediate_certificate.children.each do | certificate |
+        = link_to certificate.name, certificates_root_intermediate_server_path(root_certificate.id, intermediate_certificate.id, certificate.id) unless server_certificate && certificate.id == server_certificate.id
+
+

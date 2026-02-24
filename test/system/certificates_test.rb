@@ -11,11 +11,25 @@ class SigninsTest < ApplicationSystemTestCase
 
     click_on root.name
     assert_content "Root certificate details (#{root.name})"
+    assert_content "Export certificate"
+    assert_content "Export private key"
+    assert_content "Renew"
+    assert_content "Delete"
 
     click_on intermediate.name
     assert_content "Intermediate certificate details (#{intermediate.name})"
+    assert_content "Export certificate"
+    assert_content "Export private key"
+    assert_content "Export chain"
+    assert_content "Renew"
+    assert_content "Delete"
 
     click_on server.name
     assert_content "Server certificate details (#{server.name})"
+    assert_content "Export certificate (.crt)"
+    assert_content "Export private key"
+    assert_content "Export certificate (.pfx)"
+    assert_content "Renew"
+    assert_content "Delete"
   end
 end
