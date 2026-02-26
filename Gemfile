@@ -67,7 +67,7 @@ group :test do
   gem "selenium-webdriver"
 end
 
-gem "yaag", "~> 0.4.0"
+gem "yaag", ">= 0.4.0"
 
 gem "haml-rails", "~> 3.0"
 
