@@ -1,6 +1,6 @@
 require "application_system_test_case"
 
-class SigninsTest < ApplicationSystemTestCase
+class CertificatesTest < ApplicationSystemTestCase
   test "certificates show" do
     root = certificates(:root)
     intermediate = certificates(:intermediate)

@@ -10,7 +10,14 @@ class SigninsTest < ApplicationSystemTestCase
     assert_content "Sign in address sent to provided e-mail"
   end
 
-  test "create session" do
+  test "create session using form" do
+    visit new_session_url
+    fill_in "token", with: User.take.email_address_login_token
+    click_on "Sign in"
+    assert_content "Signed in successfully"
+  end
+
+  test "create session using link" do
     visit create_session_url(User.take.email_address_login_token)
     assert_content "Signed in successfully"
   end
