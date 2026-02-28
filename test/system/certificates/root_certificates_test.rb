@@ -13,6 +13,7 @@ class RootCertificatesTest < ApplicationSystemTestCase
     fill_in :common_name, with: "Root System Test"
     select("512", from: "key_size")
     fill_in :password, with: "cert-manager"
+    fill_in :validity, with: "120"
     click_on "Save"
 
     assert_content "Certificate was successfully created"

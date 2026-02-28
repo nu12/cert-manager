@@ -38,6 +38,11 @@
       .field.mb-3
         = f.label :common_name, {class: "form-label"}
         = f.text_field :common_name, class: "form-control", value: @cn, required: "true"
+      .field.mb-3
+        = f.label :validity, {class: "form-label"}
+        %em
+          (in months)
+        = f.number_field :validity, class: "form-control", value: @validity, required: "true"
     .col.d-flex.flex-column.justify-content-around
       .field.mb-3
         = f.label :key_size, {class: "form-label"}
