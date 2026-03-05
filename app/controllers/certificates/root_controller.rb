@@ -19,7 +19,7 @@ class Certificates::RootController < ApplicationController
     expirity_date = DateTime.now + expirity_in_days.days
     begin
       key = Key.create!(content: CertManager::Key.create(@size.to_i, @password), user: current_user)
-      certificate = Certificate.create!(content: CertManager::Certificate.create_root(CertManager::Key.parse(key, @password), "/C=#{@c}/ST=#{@st}/L=#{@l}/O=#{@o}/OU=#{@ou}/CN=#{@cn}", 0, 0, expirity_in_days), name: @cn, user: current_user, key: key, expired_at: expirity_date)
+      certificate = Certificate.create!(content: CertManager::Certificate.create_root(CertManager::Key.parse(key, @password), "/C=#{@c}/ST=#{@st}/L=#{@l}/O=#{@o}/OU=#{@ou}/CN=#{@cn}", 0, expirity_in_days), name: @cn, user: current_user, key: key, expired_at: expirity_date)
       redirect_to certificates_root_path(certificate), notice: "Certificate was successfully created."
     rescue => error
       @error = error.message
