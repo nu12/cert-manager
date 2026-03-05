@@ -17,7 +17,7 @@
       %br
       = link_to "Import server certificate", "#", {:class => "btn btn-sm btn-success } w-100 mb-1"}
 
-.row#three-columns{:style => "height: 300px"}
+.row#three-columns
   .col.pt-3.bg-white.ms-3.me-3
     - if root_certificate
       = link_to root_certificate.name,  certificates_root_path(root_certificate.id), {:class => "cm-active #{'text-danger' unless root_certificate.is_valid? }"}

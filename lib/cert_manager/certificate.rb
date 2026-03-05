@@ -1,11 +1,11 @@
 require "openssl"
 
 class CertManager::Certificate
-  def self.create_root(key, name, serial = 0, version = 0, expires_after_days = 3650)
+  def self.create_root(key, name, serial = 0, expires_after_days = 3650)
     ca_name = OpenSSL::X509::Name.parse name
     ca_cert = OpenSSL::X509::Certificate.new
     ca_cert.serial = serial
-    ca_cert.version = version
+    ca_cert.version = 3
     ca_cert.not_before = Time.now
     ca_cert.not_after = Time.now + (expires_after_days * 24 * 60 * 60)
 
@@ -27,7 +27,7 @@ class CertManager::Certificate
     ca_cert.to_pem
   end
 
-  def self.create_intermediate(key, name, root_cert, root_key, serial = 0, version = 0, expires_after_days = 1825)
+  def self.create_intermediate(key, name, root_cert, root_key, serial = 0, expires_after_days = 1825)
     inter_name = OpenSSL::X509::Name.parse name
 
     # CSR
@@ -40,7 +40,7 @@ class CertManager::Certificate
     # Sign CSR
     inter_cert = OpenSSL::X509::Certificate.new
     inter_cert.serial = serial
-    inter_cert.version = version
+    inter_cert.version = 3
     inter_cert.not_before = Time.now
     inter_cert.not_after = Time.now + (expires_after_days * 24 * 60 * 60)
 
@@ -60,7 +60,7 @@ class CertManager::Certificate
     inter_cert.sign root_key, OpenSSL::Digest::SHA256.new
     inter_cert.to_pem
   end
-  def self.create_server(key, name, inter_cert, inter_key, serial = 0, version = 0, expires_after_days = 365)
+  def self.create_server(key, name, inter_cert, inter_key, serial = 0, expires_after_days = 365)
     server_name = OpenSSL::X509::Name.parse name
 
     # CSR
@@ -73,7 +73,7 @@ class CertManager::Certificate
     # Sign CSR
     server_cert = OpenSSL::X509::Certificate.new
     server_cert.serial = serial
-    server_cert.version = version
+    server_cert.version = 3
     server_cert.not_before = Time.now
     server_cert.not_after = Time.now + (expires_after_days * 24 * 60 * 60) # 1 year in seconds
 

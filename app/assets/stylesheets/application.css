@@ -23,6 +23,10 @@ body{
   background-color: #eee;
 }
 
+#three-columns {
+  height: 300px;
+}
+
 #three-columns.row > .col > a {
   text-decoration: none;
   color: #111;
