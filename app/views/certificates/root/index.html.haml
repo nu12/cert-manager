@@ -1,5 +1,5 @@
 %h1 Certificates
 
-= render partial: "layouts/certificates", locals: {root_certificate: nil, intermediate_certificate: nil, server_certificate: nil}
+= render partial: "layouts/certificates", locals: {root_certificate: Certificate.new, intermediate_certificate: Certificate.new, server_certificate: Certificate.new}
 
 %hr

@@ -19,12 +19,18 @@ body {
 }
 */
 
-body{
-  background-color: #eee;
+
+ul.card-list {
+  max-height: 300px;
+  overflow: auto;
 }
 
 #three-columns {
   height: 300px;
+}
+
+.col-arrow {
+  max-width: 80px;
 }
 
 #three-columns.row > .col > a {

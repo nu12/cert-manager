@@ -8,4 +8,17 @@ class Certificate < ApplicationRecord
   def is_valid?
     self.expired_at >= DateTime.now
   end
+
+  def is_root?
+    self.parent.nil?
+  end
+
+  def is_intermediate?
+    return false if self.parent.nil?
+    self.parent.is_root?
+  end
+  def is_server?
+    return false if self.parent.nil?
+    self.parent.is_intermediate?
+  end
 end
