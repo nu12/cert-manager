@@ -1,0 +1,10 @@
+- if notice || alert
+  %div.toast.position-absolute.top-0.end-0.me-4.mt-5{:role => "alert", "aria-live" => "assertive", "aria-atomic" => "true"}
+    %div.toast-header
+      %svg.bd-placeholder-img.rounded.me-2{"aria-hidden" => "true", :height => "20", :preserveAspectRatio => "xMidYMid slice", :width => "20", :xmlns => "http://www.w3.org/2000/svg"}
+        %rect{:width => "100%", :height => "100%", :fill => "#{ alert ? '#f1aeb5' : '#c3e6cb'}"}
+      = alert ? 'Error' : 'Success'
+      %button.btn-close.me-2.m-auto{ :type => "button", "data-bs-dismiss" => "toast", "aria-label" => "Close"}
+    %div.toast-body
+      = notice if notice
+      = alert if alert
