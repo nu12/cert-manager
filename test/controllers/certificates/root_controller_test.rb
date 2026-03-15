@@ -2,7 +2,7 @@ require "test_helper"
 
 class RootControllerTest < ActionDispatch::IntegrationTest
   include Yaag::Test::SessionsHelper
-  setup { sign_in_as(User.take) }
+  setup { sign_in_as(users(:one)) }
 
   test "index" do
     get certificates_root_index_url

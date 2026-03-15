@@ -30,7 +30,7 @@ class Certificates::RootController < ApplicationController
     def set_certificate
       params.expect(:id)
       @certificate = Certificate.find(params[:id])
-      # authorize @certificate
+      authorize @certificate
     end
     def certificate_params
       params.expect([ :country, :state, :location, :organization, :organization_unit, :common_name, :key_size, :validity ])

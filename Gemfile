@@ -72,3 +72,5 @@ gem "yaag", ">= 0.4.0"
 gem "haml-rails", "~> 3.0"
 
 gem "haml", "~> 7.2"
+
+gem "pundit", "~> 2.5"

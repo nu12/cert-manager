@@ -1,2 +1,5 @@
 one:
   email_address: cert-manager@test.nu12
+
+two:
+  email_address: another@test.nu12
