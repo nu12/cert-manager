@@ -1,43 +1,5 @@
-.row
-  .col.ms-3.me-3
-    %h2 Root
-    = link_to "New root certificate", new_certificates_root_path, {:class => "btn btn-sm btn-success w-100 mb-1"}
-    %br
-    = link_to "Import root certificate", "#", {:class => "btn btn-sm btn-success w-100 mb-1"}
-  .col.ms-3.me-3
-    %h2 Intermediate
-    - if root_certificate
-      = link_to "New intermediate certificate", "#", {:class => "btn btn-sm btn-success } w-100 mb-1"}
-      %br
-      = link_to "Import intermediate certificate", "#", {:class => "btn btn-sm btn-success } w-100 mb-1"}
-  .col.ms-3.me-3
-    %h2 Server
-    - if intermediate_certificate
-      = link_to "New server certificate", "#", {:class => "btn btn-sm btn-success } w-100 mb-1"}
-      %br
-      = link_to "Import server certificate", "#", {:class => "btn btn-sm btn-success } w-100 mb-1"}
 
-.row#three-columns
-  .col.pt-3.bg-white.ms-3.me-3
-    - if root_certificate
-      = link_to root_certificate.name,  certificates_root_path(root_certificate.id), {:class => "cm-active #{'text-danger' unless root_certificate.is_valid? }"}
-    - Current.user.root_certificates.each do | certificate |
-      = link_to certificate.name, certificates_root_path(certificate.id), {:class => "#{'text-danger' unless certificate.is_valid? }"} unless root_certificate && certificate.id == root_certificate.id
-  .col.pt-3.bg-white.ms-3.me-3 
-    - unless root_certificate
-      (Select root certificate)
-    - else
-      - if intermediate_certificate
-        = link_to intermediate_certificate.name,  certificates_root_intermediate_path(root_certificate.id, intermediate_certificate.id), {:class => "cm-active #{'text-danger' unless intermediate_certificate.is_valid? }"}
-      - root_certificate.children.each do | certificate |
-        = link_to certificate.name, certificates_root_intermediate_path(root_certificate.id, certificate.id), {:class => "#{'text-danger' unless certificate.is_valid? }"} unless intermediate_certificate && certificate.id == intermediate_certificate.id
-  .col.pt-3.bg-white.ms-3.me-3
-    - unless intermediate_certificate
-      (Select intermediate certificate)
-    - else
-      - if server_certificate
-        = link_to server_certificate.name,  certificates_root_intermediate_server_path(root_certificate.id, intermediate_certificate.id, server_certificate.id), {:class => "cm-active #{'text-danger' unless server_certificate.is_valid? }"}
-      - intermediate_certificate.children.each do | certificate |
-        = link_to certificate.name, certificates_root_intermediate_server_path(root_certificate.id, intermediate_certificate.id, certificate.id), {:class => "#{'text-danger' unless certificate.is_valid? }"} unless server_certificate && certificate.id == server_certificate.id
-
-
+.card-group
+  = render partial: "layouts/card", locals: {certificate_type: :root, selected_certificate: root_certificate, certificates: Current.user.root_certificates, new_path: new_certificates_root_path}
+  = render partial: "layouts/card", locals: {certificate_type: :intermediate, selected_certificate: intermediate_certificate, certificates: root_certificate.new_record? ? nil : root_certificate.children, new_path: new_certificates_root_path}
+  = render partial: "layouts/card", locals: {certificate_type: :server, selected_certificate: server_certificate, certificates: intermediate_certificate.new_record? ? nil : intermediate_certificate.children, new_path: new_certificates_root_path}

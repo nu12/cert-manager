@@ -1,0 +1,39 @@
+- if certificates
+  .card{:id => "#{certificate_type}-card"}
+    .card-header
+      %h2
+        = certificate_type.capitalize
+      .row
+        .col
+          = link_to "New", new_path, :class => "btn btn-success form-control"
+        .col
+          %button.btn.btn-success.form-control
+            Import
+    %ul.list-group.list-group-flush.card-list
+      - certificates.each do | certificate |
+        %li{:class => "list-group-item #{'bg-info' if certificate.id == selected_certificate.id}"}
+          - if certificate.is_root?
+            = link_to certificate.name, certificates_root_path(certificate.id)
+          - if certificate.is_intermediate?
+            = link_to certificate.name, certificates_root_intermediate_path(certificate.parent.id, certificate.id)
+          - if certificate.is_server?
+            = link_to certificate.name, certificates_root_intermediate_server_path(certificate.parent.parent.id, certificate.parent.id, certificate.id)
+          - unless certificate.is_valid?
+            %em
+              %small (Expired)
+
+- else
+  .card
+    .card-header
+      %h2
+        = certificate_type.capitalize
+      .row
+        .col
+          %button.btn.btn-success.form-control{disabled: true}
+            New
+        .col
+          %button.btn.btn-success.form-control{disabled: true}
+            Import
+    .card-body.text-bg-secondary.text-center.h-100.align-middle
+      Select an option on the left panel to see this content
+      
