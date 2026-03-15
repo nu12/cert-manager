@@ -18,6 +18,9 @@
             = link_to certificate.name, certificates_root_intermediate_path(certificate.parent.id, certificate.id)
           - if certificate.is_server?
             = link_to certificate.name, certificates_root_intermediate_server_path(certificate.parent.parent.id, certificate.parent.id, certificate.id)
+          - unless certificate.is_valid?
+            %em
+              %small (Expired)
 
 - else
   .card
