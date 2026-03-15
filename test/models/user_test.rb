@@ -2,7 +2,7 @@ require "test_helper"
 
 class UserTest < ActiveSupport::TestCase
   test "methods" do
-    user = User.take
+    user = users(:one)
     assert user.respond_to? :certificates
     assert user.respond_to? :root_certificates
 

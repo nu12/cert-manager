@@ -2,7 +2,7 @@ require "test_helper"
 
 class Certificates::IntermediateControllerTest < ActionDispatch::IntegrationTest
   include Yaag::Test::SessionsHelper
-  setup { sign_in_as(User.take) }
+  setup { sign_in_as(users(:one)) }
 
   test "should get show" do
     get certificates_root_intermediate_url(certificates(:root), certificates(:intermediate))

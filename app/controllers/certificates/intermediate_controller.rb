@@ -1,6 +1,7 @@
 class Certificates::IntermediateController < ApplicationController
   def show
-    @root_certificate = Certificate.find(params[:root_id])
     @certificate = Certificate.find(params[:id])
+    authorize @certificate
+    @root_certificate = @certificate.parent
   end
 end

@@ -6,7 +6,7 @@ class CertificatesTest < ApplicationSystemTestCase
     intermediate = certificates(:intermediate)
     server = certificates(:server)
 
-    visit create_session_url(User.take.email_address_login_token)
+    visit create_session_url(users(:one).email_address_login_token)
     assert_content "Home"
 
     click_on root.name
