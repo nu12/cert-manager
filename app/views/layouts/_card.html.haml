@@ -1,14 +1,22 @@
-- if certificates
-  .card{:id => "#{certificate_type}-card"}
-    .card-header
-      %h2
-        = certificate_type.capitalize
-      .row
+.card{:id => "#{certificate_type}-card"}
+  .card-header
+    %h2
+      = certificate_type.capitalize
+    .row
+      - if certificate_type == :root || certificates
         .col
           = link_to "New", new_path, :class => "btn btn-success form-control"
         .col
           %button.btn.btn-success.form-control
             Import
+      - else
+        .col
+          %button.btn.btn-success.form-control{disabled: true}
+            New
+        .col
+          %button.btn.btn-success.form-control{disabled: true}
+            Import
+  - if certificates && certificates.count > 0
     %ul.list-group.list-group-flush.card-list
       - certificates.each do | certificate |
         %li{:class => "list-group-item #{'bg-info' if certificate.id == selected_certificate.id}"}
@@ -21,19 +29,9 @@
           - unless certificate.is_valid?
             %em
               %small (Expired)
-
-- else
-  .card
-    .card-header
-      %h2
-        = certificate_type.capitalize
-      .row
-        .col
-          %button.btn.btn-success.form-control{disabled: true}
-            New
-        .col
-          %button.btn.btn-success.form-control{disabled: true}
-            Import
+  - else
     .card-body.text-bg-secondary.text-center.h-100.align-middle
-      Select an option on the left panel to see this content
-      
+      - if certificate_type == :root || certificates
+        Create or import a certificate in this section to continue
+      - else
+        Select an option on the left panel to see this content
