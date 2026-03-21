@@ -12,6 +12,14 @@ class RootControllerTest < ActionDispatch::IntegrationTest
   test "show" do
     get certificates_root_url(certificates(:root))
     assert_response :success
+
+    assert_raises(ArgumentError) do
+      get certificates_root_url(certificates(:intermediate))
+    end
+
+    assert_raises(ArgumentError) do
+      get certificates_root_url(certificates(:server))
+    end
   end
 
   test "new" do
