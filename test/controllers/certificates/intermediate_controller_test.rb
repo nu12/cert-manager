@@ -76,6 +76,10 @@ class Certificates::IntermediateControllerTest < ActionDispatch::IntegrationTest
     post certificates_root_intermediate_index_url(certificates(:root)), params: { authority_password: authority_password, country: country, state: state, location: location, organization: organization, organization_unit: organization_unit, common_name: common_name, key_size: key_size, password: key_password }
     assert_response :bad_request
 
+    # Wrong authority password
+    post certificates_root_intermediate_index_url(certificates(:root)), params: { authority_password: "wrong-password", country: country, state: state, location: location, organization: organization, organization_unit: organization_unit, common_name: common_name, key_size: key_size, password: key_password }
+    assert_response :bad_request
+
     assert_difference("Certificate.count") do
       post certificates_root_intermediate_index_url(certificates(:root)), params: { authority_password: authority_password, country: country, state: state, location: location, organization: organization, organization_unit: organization_unit, common_name: common_name, key_size: key_size, password: key_password, validity: validity }
     end
