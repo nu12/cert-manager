@@ -1,0 +1,21 @@
+.col.d-flex.flex-column.justify-content-around
+  .field.mb-3
+    = form.label :key_size, {class: "form-label"}
+    = form.select :key_size, [512, 1024, 2048, 4096, 8192], { prompt: "Select a key size" }, { class: "form-control", required: "true" }
+  .field.mb-3
+    = form.label :password, {class: "form-label"}
+    = form.password_field :password, class: "form-control", required: "true"
+  .alert.alert-warning{ :role => 'alert' }
+    %h4.alert-heading
+      Save this password
+    %p.mb-0
+      The password entered in the field below will be used later to sign certificates with this root certificate's key. 
+    %hr
+    %p.mb-0
+      The system does not store this information.
+    %hr
+    %p.mb-0
+      Save the password securely.
+  
+  .actions.mb-3
+    = form.submit 'Save', class: "form-control btn btn-success"

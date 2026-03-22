@@ -1,0 +1,12 @@
+.col
+  .alert.alert-info{ :role => 'alert' }
+    %h4.alert-heading
+      CA
+    %p
+      Root certificates are self-signed and do not require a certificate authority.
+  .field.mb-3
+    = form.label :authority_name, {class: "form-label"}
+    = form.text_field :authority_name, class: "form-control", disabled: :disabled, value: 'N/A'
+  .field.mb-3
+    = form.label :authority_password, {class: "form-label"}
+    = form.password_field :authority_password, class: "form-control", disabled: :disabled
