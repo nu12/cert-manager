@@ -1,0 +1,5 @@
+%h1
+  Create new intermediate certificate
+
+.container.w-100
+  = render partial: 'forms/new/form', locals: {certificate_type: :intermediate, url: certificates_root_intermediate_index_path(@parent)}

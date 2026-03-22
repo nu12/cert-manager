@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   # resources :ca, :controller => "certificates/root", :alias => "root"
   namespace :certificates do
     resources :root, only: [ :index, :show, :new, :create ] do
-      resources :intermediate, only: [ :show ] do
+      resources :intermediate, only: [ :show, :new, :create ] do
         resources :server, only: [ :show ]
       end
     end
