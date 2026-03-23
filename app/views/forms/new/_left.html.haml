@@ -1,0 +1,27 @@
+- if certificate_type == :root
+  .col
+    .alert.alert-info{ :role => 'alert' }
+      %h4.alert-heading
+        Certificate Authotity
+      %p
+        Root certificates are self-signed and do not require a certificate authority.
+    .field.mb-3
+      = form.label :authority_name, {class: "form-label"}
+      = form.text_field :authority_name, class: "form-control", disabled: :disabled, value: 'N/A'
+    .field.mb-3
+      = form.label :authority_password, {class: "form-label"}
+      = form.password_field :authority_password, class: "form-control", disabled: :disabled
+
+- else
+  .col
+    .alert.alert-info{ :role => 'alert' }
+      %h4.alert-heading
+        Certificate Authotity
+      %p
+        Enter the password for the key used to generated the authority certificate specified below.
+    .field.mb-3
+      = form.label :authority_name, {class: "form-label"}
+      = form.text_field :authority_name, class: "form-control", disabled: :disabled, value: @parent.name
+    .field.mb-3
+      = form.label :authority_password, {class: "form-label"}
+      = form.password_field :authority_password, class: "form-control", required: "true"

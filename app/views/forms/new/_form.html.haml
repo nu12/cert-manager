@@ -1,0 +1,11 @@
+= form_with :url => url, :method => :post do |f|
+  - if @error
+    .alert.alert-danger
+      = @error
+
+  .row
+    = render partial: 'forms/new/left', locals: {form: f, certificate_type: certificate_type}
+    = render partial: 'forms/new/middle', locals: {form: f}
+    = render partial: 'forms/new/right', locals: {form: f}
+
+%hr

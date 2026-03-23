@@ -33,16 +33,4 @@ class Certificates::RootController < ApplicationController
       authorize @certificate
       raise ArgumentError, "#{@certificate.name} is not a root certificate." unless @certificate.is_root?
     end
-    def certificate_params
-      params.expect([ :country, :state, :location, :organization, :organization_unit, :common_name, :key_size, :validity ])
-      @c = params[:country]
-      @st = params[:state]
-      @l = params[:location]
-      @o = params[:organization]
-      @ou = params[:organization_unit]
-      @cn = params[:common_name]
-      @size = params[:key_size]
-      @password = params[:password]
-      @validity = params[:validity]
-    end
 end
