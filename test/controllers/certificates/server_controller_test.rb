@@ -86,7 +86,7 @@ class Certificates::ServerControllerTest < ActionDispatch::IntegrationTest
 
     expected_expirity_date = DateTime.now + (30 * validity.to_i).days
 
-    assert_redirected_to certificates_root_intermediate_url(Certificate.last.parent, Certificate.last)
+    assert_redirected_to certificates_root_intermediate_server_url(Certificate.last.parent.parent, Certificate.last.parent, Certificate.last)
     assert_equal expected_expirity_date.month, Certificate.last.expired_at.month
     assert_equal expected_expirity_date.day, Certificate.last.expired_at.day
     assert_equal expected_expirity_date.year, Certificate.last.expired_at.year
