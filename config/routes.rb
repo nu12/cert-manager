@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   namespace :certificates do
     resources :root, only: [ :index, :show, :new, :create ] do
       resources :intermediate, only: [ :show, :new, :create ] do
-        resources :server, only: [ :show ]
+        resources :server, only: [ :show, :new, :create ]
       end
     end
   end

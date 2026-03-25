@@ -24,7 +24,7 @@ class Certificates::IntermediateControllerTest < ActionDispatch::IntegrationTest
     location = "Montreal"
     organization = "nu12"
     organization_unit = "cert-manager"
-    common_name = "Root Test"
+    common_name = "Intermediate Test"
     key_size = "512"
     key_password = "cert-manager"
     validity = "60"
