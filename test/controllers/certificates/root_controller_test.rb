@@ -39,49 +39,49 @@ class RootControllerTest < ActionDispatch::IntegrationTest
     validity = "120"
 
     # Missing password
-    post certificates_root_index_url, params: { country: country, state: state, location: location, organization: organization, organization_unit: organization_unit, common_name: common_name, key_size: key_size, password: "", validity: validity }
+    post certificates_url, params: { country: country, state: state, location: location, organization: organization, organization_unit: organization_unit, common_name: common_name, key_size: key_size, password: "", validity: validity }
     assert_response :unprocessable_content
     assert_select "div.alert", "PEM_write_bio_PrivateKey_traditional: read key"
 
     # Key too small
-    post certificates_root_index_url, params: { country: country, state: state, location: location, organization: organization, organization_unit: organization_unit, common_name: common_name, key_size: "0", password: key_password, validity: validity }
+    post certificates_url, params: { country: country, state: state, location: location, organization: organization, organization_unit: organization_unit, common_name: common_name, key_size: "0", password: key_password, validity: validity }
     assert_response :unprocessable_content
     assert_select "div.alert", "EVP_PKEY_CTX_ctrl_str(ctx, \"rsa_keygen_bits\", \"0\"): key size too small"
 
     # Missing key size
-    post certificates_root_index_url, params: { country: country, state: state, location: location, organization: organization, organization_unit: organization_unit, common_name: common_name, key_size: "", password: key_password, validity: validity }
+    post certificates_url, params: { country: country, state: state, location: location, organization: organization, organization_unit: organization_unit, common_name: common_name, key_size: "", password: key_password, validity: validity }
     assert_response :bad_request
 
     # Missing C
-    post certificates_root_index_url, params: { state: state, location: location, organization: organization, organization_unit: organization_unit, common_name: common_name, key_size: key_size, password: key_password, validity: validity }
+    post certificates_url, params: { state: state, location: location, organization: organization, organization_unit: organization_unit, common_name: common_name, key_size: key_size, password: key_password, validity: validity }
     assert_response :bad_request
 
     # Missing ST
-    post certificates_root_index_url, params: { country: country, location: location, organization: organization, organization_unit: organization_unit, common_name: common_name, key_size: key_size, password: key_password, validity: validity }
+    post certificates_url, params: { country: country, location: location, organization: organization, organization_unit: organization_unit, common_name: common_name, key_size: key_size, password: key_password, validity: validity }
     assert_response :bad_request
 
     # Missing L
-    post certificates_root_index_url, params: { country: country, state: state, organization: organization, organization_unit: organization_unit, common_name: common_name, key_size: key_size, password: key_password, validity: validity }
+    post certificates_url, params: { country: country, state: state, organization: organization, organization_unit: organization_unit, common_name: common_name, key_size: key_size, password: key_password, validity: validity }
     assert_response :bad_request
 
     # Missing O
-    post certificates_root_index_url, params: { country: country, state: state, location: location, organization_unit: organization_unit, common_name: common_name, key_size: key_size, password: key_password, validity: validity }
+    post certificates_url, params: { country: country, state: state, location: location, organization_unit: organization_unit, common_name: common_name, key_size: key_size, password: key_password, validity: validity }
     assert_response :bad_request
 
     # Missing OU
-    post certificates_root_index_url, params: { country: country, state: state, location: location, organization: organization, common_name: common_name, key_size: key_size, password: key_password, validity: validity }
+    post certificates_url, params: { country: country, state: state, location: location, organization: organization, common_name: common_name, key_size: key_size, password: key_password, validity: validity }
     assert_response :bad_request
 
     # Missing CN
-    post certificates_root_index_url, params: { country: country, state: state, location: location, organization: organization, organization_unit: organization_unit, key_size: key_size, password: key_password, validity: validity }
+    post certificates_url, params: { country: country, state: state, location: location, organization: organization, organization_unit: organization_unit, key_size: key_size, password: key_password, validity: validity }
     assert_response :bad_request
 
     # Missing validity
-    post certificates_root_index_url, params: { country: country, state: state, location: location, organization: organization, organization_unit: organization_unit, common_name: common_name, key_size: key_size, password: key_password }
+    post certificates_url, params: { country: country, state: state, location: location, organization: organization, organization_unit: organization_unit, common_name: common_name, key_size: key_size, password: key_password }
     assert_response :bad_request
 
     assert_difference("Certificate.count") do
-      post certificates_root_index_url, params: { country: country, state: state, location: location, organization: organization, organization_unit: organization_unit, common_name: common_name, key_size: key_size, password: key_password, validity: validity }
+      post certificates_url, params: { country: country, state: state, location: location, organization: organization, organization_unit: organization_unit, common_name: common_name, key_size: key_size, password: key_password, validity: validity }
     end
 
     expected_expirity_date = DateTime.now + (30 * validity.to_i).days

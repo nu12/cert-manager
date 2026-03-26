@@ -1,13 +1,15 @@
 Rails.application.routes.draw do
-  # resources :ca, :controller => "certificates/root", :alias => "root"
+  get "certificates/create"
   namespace :certificates do
-    resources :root, only: [ :index, :show, :new, :create ] do
-      resources :intermediate, only: [ :show, :new, :create ] do
-        resources :server, only: [ :show, :new, :create ]
+    resources :root, only: [ :index, :show, :new ] do
+      resources :intermediate, only: [ :show, :new ] do
+        resources :server, only: [ :show, :new ]
       end
     end
   end
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+
+  resources :certificates, only: [ :create ]
+  
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   # Can be used by load balancers and uptime monitors to verify that the app is live.

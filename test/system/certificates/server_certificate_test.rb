@@ -21,7 +21,7 @@ class ServerCertificatesTest < ApplicationSystemTestCase
     fill_in :validity, with: "12"
     click_on "Save"
 
-    assert_content "Certificate was successfully created"
+    assert_content "Server certificate was successfully created"
   end
 
   test "create certificate with wrong password" do
