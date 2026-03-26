@@ -41,4 +41,10 @@ class CertificateTest < ActiveSupport::TestCase
     assert_equal false, certificate.is_intermediate?
     assert_equal true, certificate.is_server?
   end
+
+  test "deletion cascade" do
+    assert_nothing_raised do
+      certificates(:root).destroy!
+    end
+  end
 end

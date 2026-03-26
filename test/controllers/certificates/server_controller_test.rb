@@ -93,4 +93,19 @@ class Certificates::ServerControllerTest < ActionDispatch::IntegrationTest
     assert_equal expected_expirity_date.year, Certificate.last.expired_at.year
     assert_notice "Server certificate was successfully created"
   end
+
+  test "destroy" do
+    assert_difference("Certificate.count", -1) do
+      delete delete_url(certificates(:server))
+    end
+    assert_response :see_other
+    assert_notice "Certificate was successfully deleted"
+  end
+
+  test "destroy keys" do
+    # Do not delete key as there is a certificate associate to it
+    assert_difference("Key.count", 0) do
+      delete delete_url(certificates(:server))
+    end
+  end
 end

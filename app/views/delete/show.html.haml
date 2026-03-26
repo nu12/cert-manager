@@ -1,0 +1,18 @@
+%h1 Certificate deletion
+
+.row
+  .col-9
+    .container#certificate-contents
+      = CertManager::Certificate.parse(@certificate).to_text
+  .col-3
+    .accordion#accordionExpenses
+      .accordion-item
+        %h2.accordion-header
+          %button.accordion-button.bg-danger.text-white.collapsed{:type => "button", "data-bs-toggle" => "collapse", "data-bs-target" => "#collapseOne", "aria-expanded" => "false", "aria-controls" => "collapseOne"}
+            Confirm deletion
+        #collapseOne.accordion-collapse.collapse{"data-bs-parent" => "#accordionExpenses"}
+          .accordion-body
+            This certificate and all its children (if any) will be deleted.
+            %div.text-start.mt-3.alert.alert-danger{:role => "alert"}
+              You will not be prompted to confirm after clicking in the button below. Proceed with caution.
+            = link_to "Delete certificate", delete_path(@certificate), class: "btn btn-danger form-control", data: {turbo_method: :delete}

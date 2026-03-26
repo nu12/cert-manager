@@ -93,4 +93,18 @@ class Certificates::IntermediateControllerTest < ActionDispatch::IntegrationTest
     assert_equal expected_expirity_date.year, Certificate.last.expired_at.year
     assert_notice "Intermediate certificate was successfully created"
   end
+
+  test "destroy" do
+    assert_difference("Certificate.count", -3) do
+      delete delete_url(certificates(:intermediate))
+    end
+    assert_response :see_other
+    assert_notice "Certificate was successfully deleted"
+  end
+
+  test "destroy keys" do
+    assert_difference("Key.count", -2) do
+      delete delete_url(certificates(:intermediate))
+    end
+  end
 end
