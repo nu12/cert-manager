@@ -34,7 +34,7 @@ class CertificatesController < ApplicationController
       @key = Key.create!(content: CertManager::Key.create(@size.to_i, @password), user: current_user)
       return create_root unless @parent
       return create_intermediate if @parent.is_root?
-      return create_server      
+      create_server
     end
     def create_root
       @certificate = Certificate.create!(content: CertManager::Certificate.create_root(CertManager::Key.parse(@key, @password), "/C=#{@c}/ST=#{@st}/L=#{@l}/O=#{@o}/OU=#{@ou}/CN=#{@cn}", 0, @expirity_in_days), name: @cn, user: current_user, key: @key, expired_at: @expirity_date)
@@ -61,14 +61,14 @@ class CertificatesController < ApplicationController
     end
     def render_form
       unless @parent
-        render 'certificates/root/new', status: :unprocessable_entity
+        render "certificates/root/new", status: :unprocessable_entity
         return
       end
 
       if @parent.is_root?
-        render 'certificates/intermediate/new', status: :unprocessable_entity
+        render "certificates/intermediate/new", status: :unprocessable_entity
         return
       end
-      render 'certificates/server/new', status: :unprocessable_entity
+      render "certificates/server/new", status: :unprocessable_entity
     end
 end

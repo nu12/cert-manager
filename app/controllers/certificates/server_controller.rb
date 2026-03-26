@@ -7,7 +7,7 @@ class Certificates::ServerController < ApplicationController
     @c, @st, @l, @o, @ou, @cn, @size, @password = ""
     @validity = "12"
   end
-  
+
   private
     def set_certificates
       @certificate = Certificate.find(params[:id])

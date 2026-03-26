@@ -11,7 +11,7 @@ class Certificates::RootController < ApplicationController
     @validity = "120"
   end
 
-  
+
   private
     def set_certificate
       params.expect(:id)
