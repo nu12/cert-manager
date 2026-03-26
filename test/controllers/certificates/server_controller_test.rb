@@ -91,6 +91,6 @@ class Certificates::ServerControllerTest < ActionDispatch::IntegrationTest
     assert_equal expected_expirity_date.month, Certificate.last.expired_at.month
     assert_equal expected_expirity_date.day, Certificate.last.expired_at.day
     assert_equal expected_expirity_date.year, Certificate.last.expired_at.year
-    assert_notice "Certificate was successfully created"
+    assert_notice "Server certificate was successfully created"
   end
 end
