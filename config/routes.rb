@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  get "certificates/create"
   namespace :certificates do
     resources :root, only: [ :index, :show, :new ] do
       resources :intermediate, only: [ :show, :new ] do
