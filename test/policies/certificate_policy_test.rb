@@ -83,7 +83,6 @@ class CertificatePolicyTest < ActionDispatch::IntegrationTest
     assert_raises(ArgumentError) do
       get new_certificates_root_intermediate_server_url(certificates(:root), certificates(:server))
     end
-
   end
 
   test "create server certificate with other's user intermediate certificate" do

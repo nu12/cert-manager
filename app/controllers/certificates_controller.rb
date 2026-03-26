@@ -28,7 +28,7 @@ class CertificatesController < ApplicationController
     def set_variables
       @parent = Certificate.find_by(id: @authority_id)
       authorize @parent, policy_class: CertificatePolicy if @parent
-      
+
       @expirity_in_days = 30 * @validity.to_i
       @expirity_date = DateTime.now + @expirity_in_days.days
     end
