@@ -18,6 +18,6 @@ class RootCertificatesTest < ApplicationSystemTestCase
     fill_in :validity, with: "120"
     click_on "Save"
 
-    assert_content "Certificate was successfully created"
+    assert_content "Root certificate was successfully created"
   end
 end

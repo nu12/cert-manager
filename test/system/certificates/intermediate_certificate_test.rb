@@ -21,7 +21,7 @@ class IntermediateCertificatesTest < ApplicationSystemTestCase
     fill_in :validity, with: "60"
     click_on "Save"
 
-    assert_content "Certificate was successfully created"
+    assert_content "Intermediate certificate was successfully created"
   end
 
   test "create certificate with wrong password" do

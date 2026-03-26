@@ -23,7 +23,7 @@ class CertificatePolicyTest < ActionDispatch::IntegrationTest
   end
 
   test "should not create (root)" do
-    post certificates_root_index_url, params: { country: "CA", state: "Quebec", location: "Montreal", organization: "nu12", organization_unit: "cert-manager", common_name: "System Test", key_size: "512", password: "cert-manager", validity: "120" }
+    post certificates_url, params: { country: "CA", state: "Quebec", location: "Montreal", organization: "nu12", organization_unit: "cert-manager", common_name: "System Test", key_size: "512", password: "cert-manager", validity: "120" }
     assert_response :found
     assert_redirected_to new_signin_url
   end
