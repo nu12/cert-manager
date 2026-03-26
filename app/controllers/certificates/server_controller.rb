@@ -4,6 +4,9 @@ class Certificates::ServerController < ApplicationController
   end
   def new
     @parent = Certificate.find(params[:intermediate_id])
+    authorize @parent, policy_class: CertificatePolicy
+    raise ArgumentError, "#{@parent.name} is not an intermediate certificate." unless @parent.is_intermediate?
+
     @c, @st, @l, @o, @ou, @cn, @size, @password = ""
     @validity = "12"
   end
