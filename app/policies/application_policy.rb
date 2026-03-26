@@ -42,7 +42,7 @@ class ApplicationPolicy
 
   private
   def belongs_to_user?
-    record.user == user
+    record && record.user == user
   end
 
   class Scope
