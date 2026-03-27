@@ -20,14 +20,4 @@ class RootCertificatesTest < ApplicationSystemTestCase
 
     assert_content "Root certificate was successfully created"
   end
-
-  test "delete certificate" do
-    visit create_session_url(users(:one).email_address_login_token)
-    click_on certificates(:root).name
-    click_on "Delete"
-    click_on "Confirm deletion"
-    click_on "Delete certificate"
-
-    assert_content "Certificate was successfully deleted"
-  end
 end

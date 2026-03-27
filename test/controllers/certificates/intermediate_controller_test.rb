@@ -95,7 +95,15 @@ class Certificates::IntermediateControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "destroy" do
+    assert_difference("Certificate.count", 0) do
+      delete delete_url(certificates(:intermediate))
+    end
+    assert_response :see_other
+    assert_notice "Certificate cannot be deleted"
+
     assert_difference("Certificate.count", -3) do
+      delete delete_url(certificates(:server))
+      delete delete_url(certificates(:server_renewed))
       delete delete_url(certificates(:intermediate))
     end
     assert_response :see_other
@@ -104,6 +112,8 @@ class Certificates::IntermediateControllerTest < ActionDispatch::IntegrationTest
 
   test "destroy keys" do
     assert_difference("Key.count", -2) do
+      delete delete_url(certificates(:server))
+      delete delete_url(certificates(:server_renewed))
       delete delete_url(certificates(:intermediate))
     end
   end

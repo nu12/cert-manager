@@ -39,15 +39,4 @@ class IntermediateCertificatesTest < ApplicationSystemTestCase
 
     assert_content "Neither PUB key nor PRIV key"
   end
-
-  test "delete certificate" do
-    visit root_url
-    click_on certificates(:root).name
-    click_on certificates(:intermediate).name
-    click_on "Delete"
-    click_on "Confirm deletion"
-    click_on "Delete certificate"
-
-    assert_content "Certificate was successfully deleted"
-  end
 end

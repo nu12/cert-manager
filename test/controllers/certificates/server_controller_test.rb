@@ -107,5 +107,10 @@ class Certificates::ServerControllerTest < ActionDispatch::IntegrationTest
     assert_difference("Key.count", 0) do
       delete delete_url(certificates(:server))
     end
+
+    # Delete key as there is no other certificate associate to it
+    assert_difference("Key.count", -1) do
+      delete delete_url(certificates(:server_renewed))
+    end
   end
 end

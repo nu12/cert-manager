@@ -22,10 +22,7 @@ class Certificate < ApplicationRecord
     self.parent.is_intermediate?
   end
   def destroy!
-    key = self.key
-    self.children.each { |c| c.destroy! }
+    return false if self.children.count != 0
     super
-
-    key.destroy! if key.certificates.count == 0
   end
 end
