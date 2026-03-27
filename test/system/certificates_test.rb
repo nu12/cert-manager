@@ -24,7 +24,7 @@ class CertificatesTest < ApplicationSystemTestCase
     assert_content "Renew"
     assert_content "Delete"
 
-    click_on server.name
+    click_on server.name, match: :first
     assert_content "Server certificate details (#{server.name})"
     assert_content "Export certificate (.crt)"
     assert_content "Export private key"

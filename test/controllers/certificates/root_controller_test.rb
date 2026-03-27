@@ -92,4 +92,30 @@ class RootControllerTest < ActionDispatch::IntegrationTest
     assert_equal expected_expirity_date.year, Certificate.last.expired_at.year
     assert_notice "Root certificate was successfully created"
   end
+
+  test "destroy" do
+    assert_difference("Certificate.count", 0) do
+      delete delete_url(certificates(:root))
+    end
+    assert_response :see_other
+    assert_notice "Certificate cannot be deleted"
+
+    assert_difference("Certificate.count", -4) do
+      delete delete_url(certificates(:server))
+      delete delete_url(certificates(:server_renewed))
+      delete delete_url(certificates(:intermediate))
+      delete delete_url(certificates(:root))
+    end
+    assert_response :see_other
+    assert_notice "Certificate was successfully deleted"
+  end
+
+  test "destroy keys" do
+    assert_difference("Key.count", -3) do
+      delete delete_url(certificates(:server))
+      delete delete_url(certificates(:server_renewed))
+      delete delete_url(certificates(:intermediate))
+      delete delete_url(certificates(:root))
+    end
+  end
 end

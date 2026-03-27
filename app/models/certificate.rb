@@ -21,4 +21,8 @@ class Certificate < ApplicationRecord
     return false if self.parent.nil?
     self.parent.is_intermediate?
   end
+  def destroy!
+    return false if self.children.count != 0
+    super
+  end
 end
