@@ -32,6 +32,5 @@ class Certificate < ApplicationRecord
     def set_subject
       raw = CertManager::Certificate.parse(self)
       self.subject = raw.subject_key_identifier.unpack("H*").first.upcase.chars.each_slice(2).map(&:join).join(":")
-      self.save
     end
 end
