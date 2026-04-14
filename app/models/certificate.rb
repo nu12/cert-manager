@@ -5,8 +5,6 @@ class Certificate < ApplicationRecord
   has_many :children, class_name: "Certificate", foreign_key: "certificate_id"
   belongs_to :parent, class_name: "Certificate", foreign_key: "certificate_id", optional: true
 
-  after_create :set_subject
-
   def is_valid?
     self.expired_at >= DateTime.now
   end
@@ -39,10 +37,4 @@ class Certificate < ApplicationRecord
     return create!(content: CertManager::Certificate.create_intermediate(key, cert_params[:name], parent_certificate, parent_key, 0, expirity_in_days), name: cert_params[:name].match(/CN=(.*)/)[1], user: key_params[:key].user, key: key_params[:key], expired_at: expirity_date, parent: ca_params[:certificate]) if ca_params[:certificate].is_root?
     return create!(content: CertManager::Certificate.create_server(key, cert_params[:name], parent_certificate, parent_key, 0, expirity_in_days), name: cert_params[:name].match(/CN=(.*)/)[1], user: key_params[:key].user, key: key_params[:key], expired_at: expirity_date, parent: ca_params[:certificate]) if ca_params[:certificate].is_intermediate?
   end
-
-  private
-    def set_subject
-      raw = CertManager::Certificate.parse(self)
-      self.subject = raw.subject_key_identifier.unpack("H*").first.upcase.chars.each_slice(2).map(&:join).join(":")
-    end
 end

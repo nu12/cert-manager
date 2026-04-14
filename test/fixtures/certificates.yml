@@ -6,7 +6,6 @@ root:
   key: root
   certificate: null
   name: Root CA
-  subject: BE:E2:A0:49:49:50:6B:3B:C8:04:BA:7F:DC:62:4D:8A:DC:F0:E1:ED
   expired_at: 2026-02-12 18:56:28
 
 intermediate:
@@ -15,7 +14,6 @@ intermediate:
   key: intermediate
   certificate: root
   name: Intermediate CA
-  subject: DE:32:23:B1:86:68:FC:37:0E:61:3A:7B:5B:5F:CD:29:87:E3:B9:62
   expired_at: 2026-02-12 18:56:28
 
 server:
@@ -24,7 +22,6 @@ server:
   key: server
   certificate: intermediate
   name: cert-manager.github.nu12
-  subject: 88:4B:8A:BA:ED:B2:C2:5A:87:57:BE:4C:9C:8F:32:A1:27:61:A0:CB
   expired_at: 2026-02-12 18:56:28
 
 server_renewed:
@@ -33,5 +30,4 @@ server_renewed:
   key: server
   certificate: intermediate
   name: cert-manager.github.nu12
-  subject: 84:A4:16:11:74:82:10:6B:9D:8D:BF:8E:77:93:FA:35:07:54:8C:01
   expired_at: 2027-02-12 18:56:28

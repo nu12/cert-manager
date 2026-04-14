@@ -11,7 +11,6 @@ class CertificateTest < ActiveSupport::TestCase
     assert certificate.respond_to? :is_root?
     assert certificate.respond_to? :is_intermediate?
     assert certificate.respond_to? :is_server?
-    assert certificate.respond_to? :subject
   end
 
   test "is_valid?" do
@@ -47,17 +46,6 @@ class CertificateTest < ActiveSupport::TestCase
     assert_nothing_raised do
       certificates(:root).destroy!
     end
-  end
-
-  test "subject" do
-    key = keys(:root)
-    certificate = Certificate.create!(content: CertManager::Certificate.create_root(CertManager::Key.parse(key, "cert-manager"), "/C=CA/ST=Quebec/L=Montreal/O=nu12/OU=cert-manager/CN=subject-test", 0, 0), name: "subject-test", user: users(:one), key: key, expired_at: Date.today)
-    assert_equal "BE:E2:A0:49:49:50:6B:3B:C8:04:BA:7F:DC:62:4D:8A:DC:F0:E1:ED", certificate.subject
-
-    assert_equal "BE:E2:A0:49:49:50:6B:3B:C8:04:BA:7F:DC:62:4D:8A:DC:F0:E1:ED", certificates(:root).subject
-    assert_equal "DE:32:23:B1:86:68:FC:37:0E:61:3A:7B:5B:5F:CD:29:87:E3:B9:62", certificates(:intermediate).subject
-    assert_equal "88:4B:8A:BA:ED:B2:C2:5A:87:57:BE:4C:9C:8F:32:A1:27:61:A0:CB", certificates(:server).subject
-    assert_equal "84:A4:16:11:74:82:10:6B:9D:8D:BF:8E:77:93:FA:35:07:54:8C:01", certificates(:server_renewed).subject
   end
 
   test "create" do
