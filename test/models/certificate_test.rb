@@ -50,45 +50,44 @@ class CertificateTest < ActiveSupport::TestCase
 
   test "create" do
     root = Certificate.create({
-      :name => "/C=CA/ST=Quebec/L=Montreal/O=nu12/OU=cert-manager/CN=Root CA",
-      :expirity_months => 120
+      name: "/C=CA/ST=Quebec/L=Montreal/O=nu12/OU=cert-manager/CN=Root CA",
+      expirity_months: 120
     }, {
-      :key => keys(:root),
-      :password => "cert-manager"
+      key: keys(:root),
+      password: "cert-manager"
     }, nil)
 
     assert_not_nil root.content
     assert_equal "Root CA", root.name
 
   intermediate = Certificate.create({
-      :name => "/C=CA/ST=Quebec/L=Montreal/O=nu12/OU=cert-manager/CN=Intermediate CA",
-      :expirity_months => 60
+      name: "/C=CA/ST=Quebec/L=Montreal/O=nu12/OU=cert-manager/CN=Intermediate CA",
+      expirity_months: 60
     }, {
-      :key => keys(:intermediate),
-      :password => "cert-manager"
+      key: keys(:intermediate),
+      password: "cert-manager"
     }, {
-      :certificate => certificates(:root),
-      :key => keys(:root),
-      :password => "cert-manager"
+      certificate: certificates(:root),
+      key: keys(:root),
+      password: "cert-manager"
     })
 
     assert_not_nil intermediate.content
     assert_equal "Intermediate CA", intermediate.name
 
     server = Certificate.create({
-      :name => "/C=CA/ST=Quebec/L=Montreal/O=nu12/OU=cert-manager/CN=Server",
-      :expirity_months => 12
+      name: "/C=CA/ST=Quebec/L=Montreal/O=nu12/OU=cert-manager/CN=Server",
+      expirity_months: 12
     }, {
-      :key => keys(:server),
-      :password => "cert-manager"
+      key: keys(:server),
+      password: "cert-manager"
     }, {
-      :certificate => certificates(:intermediate),
-      :key => keys(:intermediate),
-      :password => "cert-manager"
+      certificate: certificates(:intermediate),
+      key: keys(:intermediate),
+      password: "cert-manager"
     })
 
     assert_not_nil server.content
     assert_equal "Server", server.name
-
   end
 end
