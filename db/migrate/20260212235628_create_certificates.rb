@@ -6,7 +6,6 @@ class CreateCertificates < ActiveRecord::Migration[8.1]
       t.references :key, null: false, foreign_key: true
       t.references :certificate, null: true, foreign_key: true
       t.string :name
-      t.string :subject
       t.datetime :expired_at
 
       t.timestamps
