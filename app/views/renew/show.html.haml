@@ -1,32 +1,13 @@
 %h1 Renew certificate
 %h4
-  = @certificate.name
+  = @certificate.common_name
 
-= form_with :url => renew_path(@certificate), :method => :put do |form|
-  - if @error
-    .alert.alert-danger
-      = @error
+.container.w-50
+  = form_with :url => renew_path(@certificate), :method => :put do |form|
+    - if @error
+      .alert.alert-danger
+        = @error
 
-  .row
-    = render partial: 'forms/new/left', locals: {form: form, certificate_type: @certificate.type}
-    .col
-      .field.mb-3
-        = form.label :certificate_name, {class: "form-label"}
-        = form.text_field :certificate_name, class: "form-control", disabled: :disabled, value: @certificate.name
-      .field.mb-3
-        = form.label :validity, {class: "form-label"}
-        %em
-          (in months)
-        = form.number_field :validity, class: "form-control", value: @validity, required: "true"
-    .col
-      .alert.alert-info{ :role => 'alert' }
-        %h4.alert-heading
-          Private key password
-        %p
-          Enter the password for the key used to generated the original certificate.
-      .field.mb-3
-        = form.label :password, {class: "form-label"}
-        = form.password_field :password, class: "form-control", required: "true"
-      .actions.mb-3
-        = form.submit 'Save', class: "form-control btn btn-success"
-%hr
+    .row
+      = render partial: 'forms/certificate', locals: {form: form}
+    

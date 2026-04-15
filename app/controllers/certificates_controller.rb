@@ -5,7 +5,7 @@ class CertificatesController < ApplicationController
     if @certificate.save
       redirect_certificate @certificate
     else
-      render "certificates/root/new", status: :unprocessable_entity
+      render "forms/certificate", status: :unprocessable_entity
     end
   end
   private

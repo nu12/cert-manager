@@ -33,17 +33,6 @@ class Certificate < ApplicationRecord
     :server if is_server?
   end
 
-  # def self.create(cert_params, key_params, ca_params = nil)
-  #   expirity_in_days = Date.parse(cert_params[:expirity_date]) - DateTime.now
-  #   key = CertManager::Key.parse(key_params[:key])
-  #   return create!(content: CertManager::Certificate.create_root(key, cert_params[:name], 0, expirity_in_days), name: cert_params[:name].match(/CN=(.*)/)[1], user: key_params[:key].user, key: key_params[:key], expirity_date: cert_params[:expirity_date]) unless ca_params
-
-  #   parent_key = CertManager::Key.parse(ca_params[:key])
-  #   parent_certificate = CertManager::Certificate.parse(ca_params[:certificate])
-  #   return create!(content: CertManager::Certificate.create_intermediate(key, cert_params[:name], parent_certificate, parent_key, 0, expirity_in_days), name: cert_params[:name].match(/CN=(.*)/)[1], user: key_params[:key].user, key: key_params[:key], expirity_date: cert_params[:expirity_date], parent: ca_params[:certificate]) if ca_params[:certificate].is_root?
-  #   create!(content: CertManager::Certificate.create_server(key, cert_params[:name], parent_certificate, parent_key, 0, expirity_in_days), name: cert_params[:name].match(/CN=(.*)/)[1], user: key_params[:key].user, key: key_params[:key], expirity_date: cert_params[:expirity_date], parent: ca_params[:certificate]) if ca_params[:certificate].is_intermediate?
-  # end
-
   private
     def set_content
       expirity_in_days = self.expirity_date - DateTime.now
