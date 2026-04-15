@@ -90,4 +90,11 @@ class CertificateTest < ActiveSupport::TestCase
     assert_not_nil server.content
     assert_equal "Server", server.name
   end
+
+  test "type" do
+    assert_equal :root, certificates(:root).type
+    assert_equal :intermediate, certificates(:intermediate).type
+    assert_equal :server, certificates(:server).type
+
+  end
 end

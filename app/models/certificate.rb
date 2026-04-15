@@ -25,6 +25,11 @@ class Certificate < ApplicationRecord
     return false if self.children.count != 0
     super
   end
+  def type
+    return :root if is_root?
+    return :intermediate if is_intermediate?
+    return :server if is_server?
+  end
 
   def self.create(cert_params, key_params, ca_params = nil)
     expirity_in_days = 30 * cert_params[:expirity_months]
