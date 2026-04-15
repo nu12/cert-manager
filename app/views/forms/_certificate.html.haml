@@ -1,0 +1,27 @@
+
+= form.text_field :certificate_id, class: "form-control"
+.field.mb-3
+  = form.label :country, {class: "form-label"}
+  %em
+    (2 letters only)
+  = form.text_field :country, class: "form-control", required: "true"
+.field.mb-3
+  = form.label :state, {class: "form-label"}
+  = form.text_field :state, class: "form-control", required: "true"
+.field.mb-3
+  = form.label :location, {class: "form-label"}
+  = form.text_field :location, class: "form-control", required: "true"
+.field.mb-3
+  = form.label :organization, {class: "form-label"}
+  = form.text_field :organization, class: "form-control", required: "true"
+.field.mb-3
+  = form.label :organization_unit, {class: "form-label"}
+  = form.text_field :organization_unit, class: "form-control", required: "true"
+.field.mb-3
+  = form.label :common_name, {class: "form-label"}
+  = form.text_field :common_name, class: "form-control", required: "true"
+.field.mb-3
+  = form.label :expirity_date, {class: "form-label"}
+  = form.date_field :expirity_date, class: "form-control", required: "true"
+.actions.mb-3
+  = form.submit 'Save', class: "form-control btn btn-success"

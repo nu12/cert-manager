@@ -7,8 +7,7 @@ class Certificates::RootController < ApplicationController
   end
 
   def new
-    @c, @st, @l, @o, @ou, @cn, @size, @password = ""
-    @validity = "120"
+    @certificate = Certificate.new
   end
 
 
@@ -17,6 +16,6 @@ class Certificates::RootController < ApplicationController
       params.expect(:id)
       @certificate = Certificate.find(params[:id])
       authorize @certificate
-      raise ArgumentError, "#{@certificate.name} is not a root certificate." unless @certificate.is_root?
+      raise ArgumentError, "#{@certificate.common_name} is not a root certificate." unless @certificate.is_root?
     end
 end

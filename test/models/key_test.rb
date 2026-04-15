@@ -9,7 +9,7 @@ class KeyTest < ActiveSupport::TestCase
 
   test "create" do
     user = users(:one)
-    key = Key.create(512, "cert-manager", user)
+    key = Key.create(user: user)
 
     assert_equal user.id, key.user.id
     assert_not_nil key.content

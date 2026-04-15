@@ -14,8 +14,8 @@ class CertificateTest < ActiveSupport::TestCase
   end
 
   test "is_valid?" do
-    valid = Certificate.new(expired_at: DateTime.now + 1.day)
-    invalid = Certificate.new(expired_at: DateTime.now - 1.day)
+    valid = Certificate.new(expirity_date: DateTime.now + 1.day)
+    invalid = Certificate.new(expirity_date: DateTime.now - 1.day)
 
     assert_equal true, valid.is_valid?
     assert_equal false, invalid.is_valid?
@@ -49,45 +49,28 @@ class CertificateTest < ActiveSupport::TestCase
   end
 
   test "create" do
-    root = Certificate.create({
-      name: "/C=CA/ST=Quebec/L=Montreal/O=nu12/OU=cert-manager/CN=Root CA",
-      expirity_months: 120
-    }, {
-      key: keys(:root),
-      password: "cert-manager"
-    }, nil)
-
+    root = Certificate.create!(country: "CA", state: "Quebec", location: "Montreal", organization: "nu12", organization_unit: "cert-manager", common_name: "Root CA", expirity_date: "2030-01-01", key: keys(:root), user: users(:one))
+    assert_not_nil root.name
     assert_not_nil root.content
-    assert_equal "Root CA", root.name
+    assert_equal "Root CA", root.common_name
+    assert_equal :root, root.type
 
-  intermediate = Certificate.create({
-      name: "/C=CA/ST=Quebec/L=Montreal/O=nu12/OU=cert-manager/CN=Intermediate CA",
-      expirity_months: 60
-    }, {
-      key: keys(:intermediate),
-      password: "cert-manager"
-    }, {
-      certificate: certificates(:root),
-      key: keys(:root),
-      password: "cert-manager"
-    })
-
+    intermediate = Certificate.create!(country: "CA", state: "Quebec", location: "Montreal", organization: "nu12", organization_unit: "cert-manager", common_name: "Intermediate CA", expirity_date: "2030-01-01", key: keys(:intermediate), user: users(:one), parent: certificates(:root))
+    assert_not_nil intermediate.name
     assert_not_nil intermediate.content
-    assert_equal "Intermediate CA", intermediate.name
+    assert_equal "Intermediate CA", intermediate.common_name
+    assert_equal :intermediate, intermediate.type
 
-    server = Certificate.create({
-      name: "/C=CA/ST=Quebec/L=Montreal/O=nu12/OU=cert-manager/CN=Server",
-      expirity_months: 12
-    }, {
-      key: keys(:server),
-      password: "cert-manager"
-    }, {
-      certificate: certificates(:intermediate),
-      key: keys(:intermediate),
-      password: "cert-manager"
-    })
-
+    server = Certificate.create!(country: "CA", state: "Quebec", location: "Montreal", organization: "nu12", organization_unit: "cert-manager", common_name: "Server", expirity_date: "2030-01-01", key: keys(:server), user: users(:one), parent: certificates(:intermediate))
+    assert_not_nil server.name
     assert_not_nil server.content
-    assert_equal "Server", server.name
+    assert_equal "Server", server.common_name
+    assert_equal :server, server.type
+  end
+
+  test "type" do
+    assert_equal :root, certificates(:root).type
+    assert_equal :intermediate, certificates(:intermediate).type
+    assert_equal :server, certificates(:server).type
   end
 end

@@ -2,7 +2,11 @@ class Key < ApplicationRecord
   belongs_to :user
   has_many :certificates
 
-  def self.create(size, password, user)
-    create!(content: CertManager::Key.create(size, password), user: user)
-  end
+  after_create :set_content
+
+  private
+    def set_content
+      self.content = CertManager::Key.create(Rails.configuration.key_size)
+      self.save
+    end
 end

@@ -9,34 +9,15 @@ class IntermediateCertificatesTest < ApplicationSystemTestCase
     end
   end
   test "create certificate" do
-    fill_in :authority_password, with: "cert-manager"
-    fill_in :country, with: "CA"
-    fill_in :state, with: "Quebec"
-    fill_in :location, with: "Montreal"
-    fill_in :organization, with: "nu12"
-    fill_in :organization_unit, with: "cert-manager"
-    fill_in :common_name, with: "Intermediate System Test"
-    select("512", from: "key_size")
-    fill_in :password, with: "cert-manager"
-    fill_in :validity, with: "60"
+    fill_in "Country", with: "CA"
+    fill_in "State", with: "Quebec"
+    fill_in "Location", with: "Montreal"
+    fill_in "Organization", with: "nu12"
+    fill_in "Organization unit", with: "cert-manager"
+    fill_in "Common name", with: "Intermediate System Test"
+    fill_in "Expirity date", with: "01-01-2030"
     click_on "Save"
 
     assert_content "Intermediate certificate was successfully created"
-  end
-
-  test "create certificate with wrong password" do
-    fill_in :authority_password, with: "wrong-password"
-    fill_in :country, with: "CA"
-    fill_in :state, with: "Quebec"
-    fill_in :location, with: "Montreal"
-    fill_in :organization, with: "nu12"
-    fill_in :organization_unit, with: "cert-manager"
-    fill_in :common_name, with: "Intermediate System Test"
-    select("512", from: "key_size")
-    fill_in :password, with: "cert-manager"
-    fill_in :validity, with: "60"
-    click_on "Save"
-
-    assert_content "Neither PUB key nor PRIV key"
   end
 end
