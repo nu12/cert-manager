@@ -69,7 +69,7 @@ class Certificates::IntermediateControllerTest < ActionDispatch::IntegrationTest
     # assert_response :bad_request
 
     assert_difference("Certificate.count") do
-      post certificates_url, params: { certificate: { country: country, state: state, location: location, organization: organization, organization_unit: organization_unit, common_name: common_name, certificate_id: certificate_id, expirity_date: expirity_date }}
+      post certificates_url, params: { certificate: { country: country, state: state, location: location, organization: organization, organization_unit: organization_unit, common_name: common_name, certificate_id: certificate_id, expirity_date: expirity_date } }
     end
 
     assert_redirected_to certificates_root_intermediate_url(Certificate.last.parent, Certificate.last)

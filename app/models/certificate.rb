@@ -30,7 +30,7 @@ class Certificate < ApplicationRecord
   def type
     return :root if is_root?
     return :intermediate if is_intermediate?
-    return :server if is_server?
+    :server if is_server?
   end
 
   # def self.create(cert_params, key_params, ca_params = nil)
