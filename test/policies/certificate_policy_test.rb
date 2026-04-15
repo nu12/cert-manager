@@ -56,7 +56,7 @@ class CertificatePolicyTest < ActionDispatch::IntegrationTest
   test "create intermediate certificate with other's user root certificate" do
     sign_in_as(users(:two))
     assert_raises(Pundit::NotAuthorizedError) do
-      post certificates_url, params: { authority_id: certificates(:root).id, authority_password: "cert-manager", country: "CA", state: "Quebec", location: "Montreal", organization: "nu12", organization_unit: "cert-manager", common_name: "System Test", key_size: "512", password: "cert-manager", validity: "120" }
+      post certificates_url, params: {certificate: { certificate_id: certificates(:root).id, country: "CA", state: "Quebec", location: "Montreal", organization: "nu12", organization_unit: "cert-manager", common_name: "System Test", expirity_date: "2030-01-01" }}
     end
   end
 
@@ -88,7 +88,7 @@ class CertificatePolicyTest < ActionDispatch::IntegrationTest
   test "create server certificate with other's user intermediate certificate" do
     sign_in_as(users(:two))
     assert_raises(Pundit::NotAuthorizedError) do
-      post certificates_url, params: { authority_id: certificates(:intermediate).id, authority_password: "cert-manager", country: "CA", state: "Quebec", location: "Montreal", organization: "nu12", organization_unit: "cert-manager", common_name: "System Test", key_size: "512", password: "cert-manager", validity: "120" }
+      post certificates_url, params: {certificate: { certificate_id: certificates(:intermediate).id, country: "CA", state: "Quebec", location: "Montreal", organization: "nu12", organization_unit: "cert-manager", common_name: "System Test", expirity_date: "2030-01-01" }}
     end
   end
 end

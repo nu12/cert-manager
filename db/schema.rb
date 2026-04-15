@@ -13,11 +13,18 @@
 ActiveRecord::Schema[8.1].define(version: 2026_02_12_235628) do
   create_table "certificates", force: :cascade do |t|
     t.integer "certificate_id"
+    t.string "common_name"
     t.text "content"
+    t.string "country"
     t.datetime "created_at", null: false
-    t.datetime "expired_at"
+    t.date "expirity_date"
     t.integer "key_id", null: false
+    t.string "location"
     t.string "name"
+    t.string "organization"
+    t.string "organization_unit"
+    t.integer "serial"
+    t.string "state"
     t.datetime "updated_at", null: false
     t.integer "user_id", null: false
     t.index ["certificate_id"], name: "index_certificates_on_certificate_id"

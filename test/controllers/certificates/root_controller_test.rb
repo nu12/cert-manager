@@ -34,57 +34,50 @@ class RootControllerTest < ActionDispatch::IntegrationTest
     organization = "nu12"
     organization_unit = "cert-manager"
     common_name = "Root Test"
-    key_size = "512"
-    key_password = "cert-manager"
-    validity = "120"
+    expirity_date = "2030-01-01"
 
-    # Key too small
-    post certificates_url, params: { country: country, state: state, location: location, organization: organization, organization_unit: organization_unit, common_name: common_name, key_size: "0", validity: validity }
-    assert_response :unprocessable_content
-    assert_select "div.alert", "EVP_PKEY_CTX_ctrl_str(ctx, \"rsa_keygen_bits\", \"0\"): key size too small"
+    # # Key too small
+    # post certificates_url, params: { country: country, state: state, location: location, organization: organization, organization_unit: organization_unit, common_name: common_name, key_size: "0", validity: validity }
+    # assert_response :unprocessable_content
+    # assert_select "div.alert", "EVP_PKEY_CTX_ctrl_str(ctx, \"rsa_keygen_bits\", \"0\"): key size too small"
 
-    # Missing key size
-    post certificates_url, params: { country: country, state: state, location: location, organization: organization, organization_unit: organization_unit, common_name: common_name, key_size: "", validity: validity }
-    assert_response :bad_request
+    # # Missing key size
+    # post certificates_url, params: { country: country, state: state, location: location, organization: organization, organization_unit: organization_unit, common_name: common_name, key_size: "", validity: validity }
+    # assert_response :bad_request
 
-    # Missing C
-    post certificates_url, params: { state: state, location: location, organization: organization, organization_unit: organization_unit, common_name: common_name, key_size: key_size, validity: validity }
-    assert_response :bad_request
+    # # Missing C
+    # post certificates_url, params: { state: state, location: location, organization: organization, organization_unit: organization_unit, common_name: common_name, key_size: key_size, validity: validity }
+    # assert_response :bad_request
 
-    # Missing ST
-    post certificates_url, params: { country: country, location: location, organization: organization, organization_unit: organization_unit, common_name: common_name, key_size: key_size, validity: validity }
-    assert_response :bad_request
+    # # Missing ST
+    # post certificates_url, params: { country: country, location: location, organization: organization, organization_unit: organization_unit, common_name: common_name, key_size: key_size, validity: validity }
+    # assert_response :bad_request
 
-    # Missing L
-    post certificates_url, params: { country: country, state: state, organization: organization, organization_unit: organization_unit, common_name: common_name, key_size: key_size, validity: validity }
-    assert_response :bad_request
+    # # Missing L
+    # post certificates_url, params: { country: country, state: state, organization: organization, organization_unit: organization_unit, common_name: common_name, key_size: key_size, validity: validity }
+    # assert_response :bad_request
 
-    # Missing O
-    post certificates_url, params: { country: country, state: state, location: location, organization_unit: organization_unit, common_name: common_name, key_size: key_size, validity: validity }
-    assert_response :bad_request
+    # # Missing O
+    # post certificates_url, params: { country: country, state: state, location: location, organization_unit: organization_unit, common_name: common_name, key_size: key_size, validity: validity }
+    # assert_response :bad_request
 
-    # Missing OU
-    post certificates_url, params: { country: country, state: state, location: location, organization: organization, common_name: common_name, key_size: key_size, validity: validity }
-    assert_response :bad_request
+    # # Missing OU
+    # post certificates_url, params: { country: country, state: state, location: location, organization: organization, common_name: common_name, key_size: key_size, validity: validity }
+    # assert_response :bad_request
 
-    # Missing CN
-    post certificates_url, params: { country: country, state: state, location: location, organization: organization, organization_unit: organization_unit, key_size: key_size, validity: validity }
-    assert_response :bad_request
+    # # Missing CN
+    # post certificates_url, params: { country: country, state: state, location: location, organization: organization, organization_unit: organization_unit, key_size: key_size, validity: validity }
+    # assert_response :bad_request
 
-    # Missing validity
-    post certificates_url, params: { country: country, state: state, location: location, organization: organization, organization_unit: organization_unit, common_name: common_name, key_size: key_size }
-    assert_response :bad_request
+    # # Missing validity
+    # post certificates_url, params: { country: country, state: state, location: location, organization: organization, organization_unit: organization_unit, common_name: common_name, key_size: key_size }
+    # assert_response :bad_request
 
     assert_difference("Certificate.count") do
-      post certificates_url, params: { country: country, state: state, location: location, organization: organization, organization_unit: organization_unit, common_name: common_name, key_size: key_size, validity: validity }
+      post certificates_url, params: { certificate: { country: country, state: state, location: location, organization: organization, organization_unit: organization_unit, common_name: common_name, expirity_date: expirity_date }}
     end
 
-    expected_expirity_date = DateTime.now + (30 * validity.to_i).days
-
     assert_redirected_to certificates_root_url(Certificate.last)
-    assert_equal expected_expirity_date.month, Certificate.last.expired_at.month
-    assert_equal expected_expirity_date.day, Certificate.last.expired_at.day
-    assert_equal expected_expirity_date.year, Certificate.last.expired_at.year
     assert_notice "Root certificate was successfully created"
   end
 

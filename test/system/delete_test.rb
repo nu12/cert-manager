@@ -3,7 +3,7 @@ require "application_system_test_case"
 class DeleteTest < ApplicationSystemTestCase
   test "delete" do
     visit create_session_url(users(:one).email_address_login_token)
-    click_on certificates(:root).name
+    click_on certificates(:root).common_name
     click_on "Delete"
     click_on "Confirm deletion"
     click_on "Delete certificate"
@@ -30,7 +30,7 @@ class DeleteTest < ApplicationSystemTestCase
     assert_content "Certificate was successfully deleted"
 
     visit root_url
-    click_on certificates(:root).name
+    click_on certificates(:root).common_name
     click_on "Delete"
     click_on "Confirm deletion"
     click_on "Delete certificate"

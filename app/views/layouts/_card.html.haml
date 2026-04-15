@@ -21,11 +21,11 @@
       - certificates.each do | certificate |
         %li{:class => "list-group-item #{'bg-info' if certificate.id == selected_certificate.id}"}
           - if certificate.is_root?
-            = link_to certificate.name, certificates_root_path(certificate.id)
+            = link_to certificate.common_name, certificates_root_path(certificate.id)
           - if certificate.is_intermediate?
-            = link_to certificate.name, certificates_root_intermediate_path(certificate.parent.id, certificate.id)
+            = link_to certificate.common_name, certificates_root_intermediate_path(certificate.parent.id, certificate.id)
           - if certificate.is_server?
-            = link_to certificate.name, certificates_root_intermediate_server_path(certificate.parent.parent.id, certificate.parent.id, certificate.id)
+            = link_to certificate.common_name, certificates_root_intermediate_server_path(certificate.parent.parent.id, certificate.parent.id, certificate.id)
           - unless certificate.is_valid?
             %em
               %small (Expired)
