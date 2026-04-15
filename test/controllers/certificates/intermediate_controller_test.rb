@@ -30,16 +30,6 @@ class Certificates::IntermediateControllerTest < ActionDispatch::IntegrationTest
     key_password = "cert-manager"
     validity = "60"
 
-    # Missing authority password
-    post certificates_url, params: { authority_id: authority_id, authority_password: "", country: country, state: state, location: location, organization: organization, organization_unit: organization_unit, common_name: common_name, key_size: key_size, password: "", validity: validity }
-    assert_response :unprocessable_content
-    assert_select "div.alert", "PEM_write_bio_PrivateKey_traditional: read key"
-
-    # Missing password
-    post certificates_url, params: { authority_id: authority_id, authority_password: authority_password, country: country, state: state, location: location, organization: organization, organization_unit: organization_unit, common_name: common_name, key_size: key_size, password: "", validity: validity }
-    assert_response :unprocessable_content
-    assert_select "div.alert", "PEM_write_bio_PrivateKey_traditional: read key"
-
     # Key too small
     post certificates_url, params: { authority_id: authority_id, authority_password: authority_password, country: country, state: state, location: location, organization: organization, organization_unit: organization_unit, common_name: common_name, key_size: "0", password: key_password, validity: validity }
     assert_response :unprocessable_content

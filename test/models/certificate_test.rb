@@ -53,8 +53,7 @@ class CertificateTest < ActiveSupport::TestCase
       name: "/C=CA/ST=Quebec/L=Montreal/O=nu12/OU=cert-manager/CN=Root CA",
       expirity_months: 120
     }, {
-      key: keys(:root),
-      password: "cert-manager"
+      key: keys(:root)
     }, nil)
 
     assert_not_nil root.content
@@ -64,12 +63,10 @@ class CertificateTest < ActiveSupport::TestCase
       name: "/C=CA/ST=Quebec/L=Montreal/O=nu12/OU=cert-manager/CN=Intermediate CA",
       expirity_months: 60
     }, {
-      key: keys(:intermediate),
-      password: "cert-manager"
+      key: keys(:intermediate)
     }, {
       certificate: certificates(:root),
-      key: keys(:root),
-      password: "cert-manager"
+      key: keys(:root)
     })
 
     assert_not_nil intermediate.content
@@ -79,12 +76,10 @@ class CertificateTest < ActiveSupport::TestCase
       name: "/C=CA/ST=Quebec/L=Montreal/O=nu12/OU=cert-manager/CN=Server",
       expirity_months: 12
     }, {
-      key: keys(:server),
-      password: "cert-manager"
+      key: keys(:server)
     }, {
       certificate: certificates(:intermediate),
-      key: keys(:intermediate),
-      password: "cert-manager"
+      key: keys(:intermediate)
     })
 
     assert_not_nil server.content

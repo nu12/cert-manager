@@ -14,7 +14,6 @@ class CertificatesController < ApplicationController
     def certificate_params
       params.expect([ :country, :state, :location, :organization, :organization_unit, :common_name, :key_size, :validity ])
       @authority_id = params[:authority_id]
-      @authority_password = params[:authority_password]
       @c = params[:country]
       @st = params[:state]
       @l = params[:location]
@@ -22,7 +21,6 @@ class CertificatesController < ApplicationController
       @ou = params[:organization_unit]
       @cn = params[:common_name]
       @size = params[:key_size]
-      @password = params[:password]
       @validity = params[:validity]
     end
     def set_variables
@@ -33,21 +31,21 @@ class CertificatesController < ApplicationController
       @expirity_date = DateTime.now + @expirity_in_days.days
     end
     def create_key_and_certificate
-      @key = Key.create!(content: CertManager::Key.create(@size.to_i, @password), user: current_user)
+      @key = Key.create!(content: CertManager::Key.create(@size.to_i), user: current_user)
       return create_root unless @parent
       return create_intermediate if @parent.is_root?
       create_server
     end
     def create_root
-      @certificate = Certificate.create!(content: CertManager::Certificate.create_root(CertManager::Key.parse(@key, @password), "/C=#{@c}/ST=#{@st}/L=#{@l}/O=#{@o}/OU=#{@ou}/CN=#{@cn}", 0, @expirity_in_days), name: @cn, user: current_user, key: @key, expired_at: @expirity_date)
+      @certificate = Certificate.create!(content: CertManager::Certificate.create_root(CertManager::Key.parse(@key), "/C=#{@c}/ST=#{@st}/L=#{@l}/O=#{@o}/OU=#{@ou}/CN=#{@cn}", 0, @expirity_in_days), name: @cn, user: current_user, key: @key, expired_at: @expirity_date)
     end
     def create_intermediate
       root_key = @parent.key
-      @certificate = Certificate.create!(content: CertManager::Certificate.create_intermediate(CertManager::Key.parse(@key, @password), "/C=#{@c}/ST=#{@st}/L=#{@l}/O=#{@o}/OU=#{@ou}/CN=#{@cn}", CertManager::Certificate.parse(@parent), CertManager::Key.parse(root_key, @authority_password), 0, @expirity_in_days), name: @cn, user: current_user, key: @key, expired_at: @expirity_date, parent: @parent)
+      @certificate = Certificate.create!(content: CertManager::Certificate.create_intermediate(CertManager::Key.parse(@key), "/C=#{@c}/ST=#{@st}/L=#{@l}/O=#{@o}/OU=#{@ou}/CN=#{@cn}", CertManager::Certificate.parse(@parent), CertManager::Key.parse(root_key), 0, @expirity_in_days), name: @cn, user: current_user, key: @key, expired_at: @expirity_date, parent: @parent)
     end
     def create_server
       root_key = @parent.key
-      @certificate = Certificate.create!(content: CertManager::Certificate.create_server(CertManager::Key.parse(@key, @password), "/C=#{@c}/ST=#{@st}/L=#{@l}/O=#{@o}/OU=#{@ou}/CN=#{@cn}", CertManager::Certificate.parse(@parent), CertManager::Key.parse(root_key, @authority_password), 0, @expirity_in_days), name: @cn, user: current_user, key: @key, expired_at: @expirity_date, parent: @parent)
+      @certificate = Certificate.create!(content: CertManager::Certificate.create_server(CertManager::Key.parse(@key), "/C=#{@c}/ST=#{@st}/L=#{@l}/O=#{@o}/OU=#{@ou}/CN=#{@cn}", CertManager::Certificate.parse(@parent), CertManager::Key.parse(root_key), 0, @expirity_in_days), name: @cn, user: current_user, key: @key, expired_at: @expirity_date, parent: @parent)
     end
     def redirect_certificate
       if @certificate.is_root?

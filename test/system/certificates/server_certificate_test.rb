@@ -23,20 +23,4 @@ class ServerCertificatesTest < ApplicationSystemTestCase
 
     assert_content "Server certificate was successfully created"
   end
-
-  test "create certificate with wrong password" do
-    fill_in :authority_password, with: "wrong-password"
-    fill_in :country, with: "CA"
-    fill_in :state, with: "Quebec"
-    fill_in :location, with: "Montreal"
-    fill_in :organization, with: "nu12"
-    fill_in :organization_unit, with: "cert-manager"
-    fill_in :common_name, with: "Server System Test"
-    select("512", from: "key_size")
-    fill_in :password, with: "cert-manager"
-    fill_in :validity, with: "12"
-    click_on "Save"
-
-    assert_content "Neither PUB key nor PRIV key"
-  end
 end
