@@ -1,6 +1,6 @@
 %h1 Renew certificate
 %h4
-  = "#{@certificate.name} (#{@certificate.subject})"
+  = @certificate.name
 
 = form_with :url => renew_path(@certificate), :method => :put do |form|
   - if @error

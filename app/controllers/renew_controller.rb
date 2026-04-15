@@ -4,11 +4,21 @@ class RenewController < ApplicationController
   end
 
   def update
-    renew_root if @certificate.type == :root
-    renew_intermediate if @certificate.type == :intermediate
-    renew_server if @certificate.type == :server
+    ca_params = @certificate.is_root? ? nil : {
+      :certificate => @parent,
+      :key => @parent.key,
+      :password => params[:authority_password]
+    }
 
-    redirect_to certificates_root_intermediate_server_path(@parent.parent, @parent, @certificate), notice: "Server certificate was successfully created."
+    new_certificate = Certificate.create({
+      name: "/C=CA/ST=Quebec/L=Montreal/O=nu12/OU=cert-manager/CN=Root CA",
+      expirity_months: 120
+    }, {
+      key: keys(:root),
+      password: "cert-manager"
+    }, ca_params)
+
+    redirect_certificate new_certificate
   end
   private
     def renew_root
