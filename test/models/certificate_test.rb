@@ -74,11 +74,4 @@ class CertificateTest < ActiveSupport::TestCase
     assert_equal :intermediate, certificates(:intermediate).type
     assert_equal :server, certificates(:server).type
   end
-
-  test "type" do
-    assert_equal :root, certificates(:root).type
-    assert_equal :intermediate, certificates(:intermediate).type
-    assert_equal :server, certificates(:server).type
-
-  end
 end
