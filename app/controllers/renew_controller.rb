@@ -5,7 +5,7 @@ class RenewController < ApplicationController
   end
 
   def update
-    params.expect([:id, :expirity_date])
+    params.expect([ :id, :expirity_date ])
     @certificate = Certificate.find(params[:id])
     authorize @certificate
 
@@ -21,7 +21,7 @@ class RenewController < ApplicationController
       parent: @certificate.parent,
       expirity_date: params[:expirity_date]
     )
-    
+
     if new_certificate.save
       redirect_certificate new_certificate
     else

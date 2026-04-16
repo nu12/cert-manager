@@ -6,7 +6,7 @@ Rails.application.routes.draw do
       end
     end
   end
-  
+
   resources :certificates, only: [ :create ]
   resources :renew, only: [ :show, :update ]
   resources :delete, only: [ :show, :destroy ]

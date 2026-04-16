@@ -10,7 +10,7 @@ class RenewControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
 
     assert_difference("Certificate.count") do
-      put renew_url(root), params: {id: root.id, expirity_date: "2030-01-01"}
+      put renew_url(root), params: { id: root.id, expirity_date: "2030-01-01" }
     end
     assert_redirected_to certificates_root_url(Certificate.last)
     assert_response :see_other
@@ -22,7 +22,7 @@ class RenewControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
 
     assert_difference("Certificate.count") do
-      put renew_url(intermediate), params: {id: intermediate.id, expirity_date: "2030-01-01"}
+      put renew_url(intermediate), params: { id: intermediate.id, expirity_date: "2030-01-01" }
     end
     assert_redirected_to certificates_root_intermediate_url(Certificate.last.parent, Certificate.last)
     assert_response :see_other
@@ -34,7 +34,7 @@ class RenewControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
 
     assert_difference("Certificate.count") do
-      put renew_url(server), params: {id: server.id, expirity_date: "2030-01-01"}
+      put renew_url(server), params: { id: server.id, expirity_date: "2030-01-01" }
     end
     assert_redirected_to certificates_root_intermediate_server_url(Certificate.last.parent.parent, Certificate.last.parent, Certificate.last)
     assert_response :see_other
