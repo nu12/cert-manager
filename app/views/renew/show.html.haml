@@ -1,0 +1,13 @@
+%h1 Renew certificate
+%h4
+  = @certificate.common_name
+
+.container.w-50
+  = form_with :url => renew_path(@certificate), :method => :put do |form|
+    - if @error
+      .alert.alert-danger
+        = @error
+
+    .row
+      = render partial: 'forms/certificate', locals: {form: form}
+    

@@ -1,25 +1,26 @@
 
-= form.text_field :certificate_id, class: "form-control"
+= form.hidden_field :certificate_id, class: "form-control"
+= form.hidden_field :id, class: "form-control", value: @certificate.id
 .field.mb-3
   = form.label :country, {class: "form-label"}
   %em
     (2 letters only)
-  = form.text_field :country, class: "form-control", required: "true"
+  = form.text_field :country, class: "form-control", required: "true", value: @certificate.country, disabled: !@certificate.new_record?
 .field.mb-3
   = form.label :state, {class: "form-label"}
-  = form.text_field :state, class: "form-control", required: "true"
+  = form.text_field :state, class: "form-control", required: "true", value: @certificate.state, disabled: !@certificate.new_record?
 .field.mb-3
   = form.label :location, {class: "form-label"}
-  = form.text_field :location, class: "form-control", required: "true"
+  = form.text_field :location, class: "form-control", required: "true", value: @certificate.location, disabled: !@certificate.new_record?
 .field.mb-3
   = form.label :organization, {class: "form-label"}
-  = form.text_field :organization, class: "form-control", required: "true"
+  = form.text_field :organization, class: "form-control", required: "true", value: @certificate.organization, disabled: !@certificate.new_record?
 .field.mb-3
   = form.label :organization_unit, {class: "form-label"}
-  = form.text_field :organization_unit, class: "form-control", required: "true"
+  = form.text_field :organization_unit, class: "form-control", required: "true", value: @certificate.organization_unit, disabled: !@certificate.new_record?
 .field.mb-3
   = form.label :common_name, {class: "form-label"}
-  = form.text_field :common_name, class: "form-control", required: "true"
+  = form.text_field :common_name, class: "form-control", required: "true", value: @certificate.common_name, disabled: !@certificate.new_record?
 .field.mb-3
   = form.label :expirity_date, {class: "form-label"}
   = form.date_field :expirity_date, class: "form-control", required: "true"

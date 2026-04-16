@@ -29,5 +29,5 @@ server_renewed:
   user: one
   key: server
   certificate: intermediate
-  name: cert-manager.github.nu12
+  common_name: cert-manager.github.nu12
   expirity_date: 2027-02-12 18:56:28

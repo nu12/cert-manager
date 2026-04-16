@@ -11,6 +11,7 @@ class CertificateTest < ActiveSupport::TestCase
     assert certificate.respond_to? :is_root?
     assert certificate.respond_to? :is_intermediate?
     assert certificate.respond_to? :is_server?
+    assert certificate.respond_to? :type
   end
 
   test "is_valid?" do

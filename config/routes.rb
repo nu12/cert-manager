@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   end
 
   resources :certificates, only: [ :create ]
+  resources :renew, only: [ :show, :update ]
   resources :delete, only: [ :show, :destroy ]
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

@@ -6,7 +6,7 @@ class DeleteController < ApplicationController
   def destroy
     if @certificate.destroy!
       @certificate.key.destroy! if @certificate.key.certificates.count == 0
-      redirect_to root_path, notice: "Certificate was successfully deleted.", status: :see_other
+      redirect_certificate(@certificate.parent, "Certificate was successfully deleted.")
     else
       redirect_to delete_path(@certificate), alert: "Certificate cannot be deleted.", status: :see_other
     end
