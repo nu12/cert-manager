@@ -37,7 +37,7 @@ class Certificate < ApplicationRecord
   end
 
   private
-    def set_serial      
+    def set_serial
       self.serial = SecureRandom.random_number(1048575) # 20 bits
     end
     def set_content
