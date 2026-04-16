@@ -5,6 +5,9 @@ class Certificate < ApplicationRecord
   has_many :children, class_name: "Certificate", foreign_key: "certificate_id"
   belongs_to :parent, class_name: "Certificate", foreign_key: "certificate_id", optional: true
 
+  validates :serial, uniqueness: true
+
+  before_validation :set_serial
   after_create :set_content
 
   def is_valid?
@@ -34,17 +37,20 @@ class Certificate < ApplicationRecord
   end
 
   private
+    def set_serial      
+      self.serial = SecureRandom.random_number(1048575) # 20 bits
+    end
     def set_content
       expirity_in_days = self.expirity_date - DateTime.now
       self.name = "/C=#{self.country}/ST=#{self.state}/L=#{self.location}/O=#{self.organization}/OU=#{self.organization_unit}/CN=#{self.common_name}"
       if self.is_root?
-        self.content = CertManager::Certificate.create_root(CertManager::Key.parse(self.key), self.name, 0, expirity_in_days)
+        self.content = CertManager::Certificate.create_root(CertManager::Key.parse(self.key), self.name, self.serial, expirity_in_days)
       end
       if self.is_intermediate?
-        self.content = CertManager::Certificate.create_intermediate(CertManager::Key.parse(self.key), self.name, CertManager::Certificate.parse(self.parent), CertManager::Key.parse(self.parent.key), 0, expirity_in_days)
+        self.content = CertManager::Certificate.create_intermediate(CertManager::Key.parse(self.key), self.name, CertManager::Certificate.parse(self.parent), CertManager::Key.parse(self.parent.key), self.serial, expirity_in_days)
       end
       if self.is_server?
-        self.content = CertManager::Certificate.create_server(CertManager::Key.parse(self.key), self.name, CertManager::Certificate.parse(self.parent), CertManager::Key.parse(self.parent.key), 0, expirity_in_days)
+        self.content = CertManager::Certificate.create_server(CertManager::Key.parse(self.key), self.name, CertManager::Certificate.parse(self.parent), CertManager::Key.parse(self.parent.key), self.serial, expirity_in_days)
       end
       self.save
     end

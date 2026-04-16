@@ -6,6 +6,7 @@ root:
   key: root
   certificate: null
   common_name: Root CA
+  serial: 1
   expirity_date: 2026-02-12 18:56:28
 
 intermediate:
@@ -14,6 +15,7 @@ intermediate:
   key: intermediate
   certificate: root
   common_name: Intermediate CA
+  serial: 2
   expirity_date: 2026-02-12 18:56:28
 
 server:
@@ -22,6 +24,7 @@ server:
   key: server
   certificate: intermediate
   common_name: cert-manager.github.nu12
+  serial: 3
   expirity_date: 2026-02-12 18:56:28
 
 server_renewed:
@@ -30,4 +33,5 @@ server_renewed:
   key: server
   certificate: intermediate
   common_name: cert-manager.github.nu12
+  serial: 4
   expirity_date: 2027-02-12 18:56:28

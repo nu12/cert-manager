@@ -26,9 +26,12 @@
             = link_to certificate.common_name, certificates_root_intermediate_path(certificate.parent.id, certificate.id)
           - if certificate.is_server?
             = link_to certificate.common_name, certificates_root_intermediate_server_path(certificate.parent.parent.id, certificate.parent.id, certificate.id)
+          %small
+            = "(#{certificate.serial})"
           - unless certificate.is_valid?
             %em
               %small (Expired)
+          
   - else
     .card-body.text-bg-secondary.text-center.h-100.align-middle
       - if certificate_type == :root || certificates
