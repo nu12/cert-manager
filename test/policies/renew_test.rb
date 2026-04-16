@@ -16,30 +16,30 @@ class RenewTest < ActionDispatch::IntegrationTest
   test "show other's user certificate" do
     sign_in_as(users(:two))
     assert_raises(Pundit::NotAuthorizedError) do
-      get renew_url(certificates(:root))
+      get renew_url(certificates(:root).serial)
     end
 
     assert_raises(Pundit::NotAuthorizedError) do
-      get renew_url(certificates(:intermediate))
+      get renew_url(certificates(:intermediate).serial)
     end
 
     assert_raises(Pundit::NotAuthorizedError) do
-      get renew_url(certificates(:server))
+      get renew_url(certificates(:server).serial)
     end
   end
 
   test "update other's user certificate" do
     sign_in_as(users(:two))
     assert_raises(Pundit::NotAuthorizedError) do
-      put renew_url(certificates(:root)), params: { id: certificates(:root).id, expirity_date: "2030-01-01" }
+      put renew_url(certificates(:root).serial), params: { id: certificates(:root).id, expirity_date: "2030-01-01" }
     end
 
     assert_raises(Pundit::NotAuthorizedError) do
-      put renew_url(certificates(:intermediate)), params: { id: certificates(:intermediate).id, expirity_date: "2030-01-01" }
+      put renew_url(certificates(:intermediate).serial), params: { id: certificates(:intermediate).id, expirity_date: "2030-01-01" }
     end
 
     assert_raises(Pundit::NotAuthorizedError) do
-      put renew_url(certificates(:server)), params: { id: certificates(:server).id, expirity_date: "2030-01-01" }
+      put renew_url(certificates(:server).serial), params: { id: certificates(:server).id, expirity_date: "2030-01-01" }
     end
   end
 end

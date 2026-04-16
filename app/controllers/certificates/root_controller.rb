@@ -13,8 +13,8 @@ class Certificates::RootController < ApplicationController
 
   private
     def set_certificate
-      params.expect(:id)
-      @certificate = Certificate.find(params[:id])
+      params.expect(:serial)
+      @certificate = Certificate.find_by(serial: params[:serial])
       authorize @certificate
       raise ArgumentError, "#{@certificate.common_name} is not a root certificate." unless @certificate.is_root?
     end

@@ -6,37 +6,37 @@ class RenewControllerTest < ActionDispatch::IntegrationTest
 
   test "root" do
     root = certificates(:root)
-    get renew_url(root)
+    get renew_url(root.serial)
     assert_response :success
 
     assert_difference("Certificate.count") do
-      put renew_url(root), params: { id: root.id, expirity_date: "2030-01-01" }
+      put renew_url(root.serial), params: { id: root.id, expirity_date: "2030-01-01" }
     end
-    assert_redirected_to certificates_root_url(Certificate.last)
+    assert_redirected_to certificates_root_url(Certificate.last.serial)
     assert_response :see_other
   end
 
   test "intermediate" do
   intermediate = certificates(:intermediate)
-    get renew_url(intermediate)
+    get renew_url(intermediate.serial)
     assert_response :success
 
     assert_difference("Certificate.count") do
-      put renew_url(intermediate), params: { id: intermediate.id, expirity_date: "2030-01-01" }
+      put renew_url(intermediate.serial), params: { id: intermediate.id, expirity_date: "2030-01-01" }
     end
-    assert_redirected_to certificates_root_intermediate_url(Certificate.last.parent, Certificate.last)
+    assert_redirected_to certificates_root_intermediate_url(Certificate.last.parent.serial, Certificate.last.serial)
     assert_response :see_other
   end
 
   test "server" do
   server = certificates(:server)
-    get renew_url(server)
+    get renew_url(server.serial)
     assert_response :success
 
     assert_difference("Certificate.count") do
-      put renew_url(server), params: { id: server.id, expirity_date: "2030-01-01" }
+      put renew_url(server.serial), params: { id: server.id, expirity_date: "2030-01-01" }
     end
-    assert_redirected_to certificates_root_intermediate_server_url(Certificate.last.parent.parent, Certificate.last.parent, Certificate.last)
+    assert_redirected_to certificates_root_intermediate_server_url(Certificate.last.parent.parent.serial, Certificate.last.parent.serial, Certificate.last.serial)
     assert_response :see_other
   end
 end

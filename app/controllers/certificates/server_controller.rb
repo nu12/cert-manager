@@ -9,15 +9,16 @@ class Certificates::ServerController < ApplicationController
 
   private
     def set_certificates
-      @certificate = Certificate.find(params[:id])
+      params.expect(:serial, :root_serial, :intermediate_serial)
+      @certificate = Certificate.find_by(serial: params[:serial])
       authorize @certificate
       raise ArgumentError, "#{@certificate.common_name} is not a server certificate." unless @certificate.is_server?
     end
     def validate_parents
-      @intermediate_certificate = Certificate.find(params[:intermediate_id])
+      @intermediate_certificate = Certificate.find_by(serial: params[:intermediate_serial])
       authorize @intermediate_certificate, policy_class: CertificatePolicy
       raise ArgumentError, "#{@intermediate_certificate.common_name} is not a intermediate certificate." unless @intermediate_certificate.is_intermediate?
-      @root_certificate = Certificate.find(params[:root_id])
+      @root_certificate = Certificate.find_by(serial: params[:root_serial])
       authorize @root_certificate, policy_class: CertificatePolicy
       raise ArgumentError, "#{@root_certificate.common_name} is not a root certificate." unless @root_certificate.is_root?
     end
