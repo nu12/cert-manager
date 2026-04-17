@@ -4,9 +4,7 @@ class IntermediateCertificatesTest < ApplicationSystemTestCase
   test "create certificate" do
     visit create_session_url(users(:one).email_address_login_token)
     click_on certificates(:root).common_name
-    within("div#intermediate-card") do
-      click_on "New"
-    end
+    find('a#new-intermediate-link').click
     fill_in "Country", with: "CA"
     fill_in "State", with: "Quebec"
     fill_in "Location", with: "Montreal"

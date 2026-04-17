@@ -1,21 +1,12 @@
-.card{:id => "#{certificate_type}-card"}
+.card
   .card-header
     %h2
       = certificate_type.capitalize
-    .row
-      - if certificate_type == :root || certificates
-        .col
-          = link_to "New", new_path, :class => "btn btn-success form-control"
-        .col
-          %button.btn.btn-success.form-control
-            Import
-      - else
-        .col
-          %button.btn.btn-success.form-control{disabled: true}
-            New
-        .col
-          %button.btn.btn-success.form-control{disabled: true}
-            Import
+      - if (certificate_type == :root || certificates)
+        %a.btn.btn-light.btn-outline-secondary.btn-sm{ :id => "new-#{certificate_type}-link", :href => new_path, "data-bs-toggle" => "tooltip", "data-bs-placement" => "top", "data-bs-title" => "New" }
+          %svg.bi.pe-none{ :width => "16", :height => "16", "aria-hidden" => "true" }
+            %use{ "xlink:href" => "#add" }
+        
   - if certificates && certificates.count > 0
     %ul.list-group.list-group-flush.card-list
       - certificates.each do | certificate |
