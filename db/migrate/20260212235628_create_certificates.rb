@@ -12,7 +12,7 @@ class CreateCertificates < ActiveRecord::Migration[8.1]
       t.string :organization_unit
       t.string :common_name
       t.string :name
-      t.integer :serial
+      t.string :serial
       t.date :expirity_date
 
       t.timestamps

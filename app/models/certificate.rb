@@ -38,19 +38,19 @@ class Certificate < ApplicationRecord
 
   private
     def set_serial
-      self.serial = SecureRandom.random_number(1048575) # 20 bits
+      self.serial = SecureRandom.hex(20)
     end
     def set_content
       expirity_in_days = self.expirity_date - DateTime.now
       self.name = "/C=#{self.country}/ST=#{self.state}/L=#{self.location}/O=#{self.organization}/OU=#{self.organization_unit}/CN=#{self.common_name}"
       if self.is_root?
-        self.content = CertManager::Certificate.create_root(CertManager::Key.parse(self.key), self.name, self.serial, expirity_in_days)
+        self.content = CertManager::Certificate.create_root(CertManager::Key.parse(self.key), self.name, self.serial.to_i(16), expirity_in_days)
       end
       if self.is_intermediate?
-        self.content = CertManager::Certificate.create_intermediate(CertManager::Key.parse(self.key), self.name, CertManager::Certificate.parse(self.parent), CertManager::Key.parse(self.parent.key), self.serial, expirity_in_days)
+        self.content = CertManager::Certificate.create_intermediate(CertManager::Key.parse(self.key), self.name, CertManager::Certificate.parse(self.parent), CertManager::Key.parse(self.parent.key), self.serial.to_i(16), expirity_in_days)
       end
       if self.is_server?
-        self.content = CertManager::Certificate.create_server(CertManager::Key.parse(self.key), self.name, CertManager::Certificate.parse(self.parent), CertManager::Key.parse(self.parent.key), self.serial, expirity_in_days)
+        self.content = CertManager::Certificate.create_server(CertManager::Key.parse(self.key), self.name, CertManager::Certificate.parse(self.parent), CertManager::Key.parse(self.parent.key), self.serial.to_i(16), expirity_in_days)
       end
       self.save
     end

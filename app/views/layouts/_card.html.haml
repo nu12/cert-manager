@@ -26,11 +26,12 @@
             = link_to certificate.common_name, certificates_root_intermediate_path(certificate.parent.serial, certificate.serial)
           - if certificate.is_server?
             = link_to certificate.common_name, certificates_root_intermediate_server_path(certificate.parent.parent.serial, certificate.parent.serial, certificate.serial)
-          %small
-            = "(#{certificate.serial})"
           - unless certificate.is_valid?
             %em
               %small (Expired)
+          %br
+            %small
+              = "(#{certificate.serial.upcase})"
           
   - else
     .card-body.text-bg-secondary.text-center.h-100.align-middle
