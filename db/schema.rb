@@ -23,7 +23,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_12_235628) do
     t.string "name"
     t.string "organization"
     t.string "organization_unit"
-    t.integer "serial"
+    t.string "serial"
     t.string "state"
     t.datetime "updated_at", null: false
     t.integer "user_id", null: false

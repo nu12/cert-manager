@@ -21,14 +21,18 @@
       - certificates.each do | certificate |
         %li{:class => "list-group-item #{'bg-info' if certificate.id == selected_certificate.id}"}
           - if certificate.is_root?
-            = link_to certificate.common_name, certificates_root_path(certificate.id)
+            = link_to certificate.common_name, certificates_root_path(certificate.serial)
           - if certificate.is_intermediate?
-            = link_to certificate.common_name, certificates_root_intermediate_path(certificate.parent.id, certificate.id)
+            = link_to certificate.common_name, certificates_root_intermediate_path(certificate.parent.serial, certificate.serial)
           - if certificate.is_server?
-            = link_to certificate.common_name, certificates_root_intermediate_server_path(certificate.parent.parent.id, certificate.parent.id, certificate.id)
+            = link_to certificate.common_name, certificates_root_intermediate_server_path(certificate.parent.parent.serial, certificate.parent.serial, certificate.serial)
           - unless certificate.is_valid?
             %em
               %small (Expired)
+          %br
+            %small
+              = "(#{certificate.serial.upcase})"
+          
   - else
     .card-body.text-bg-secondary.text-center.h-100.align-middle
       - if certificate_type == :root || certificates

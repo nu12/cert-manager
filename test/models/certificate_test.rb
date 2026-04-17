@@ -53,18 +53,21 @@ class CertificateTest < ActiveSupport::TestCase
     root = Certificate.create!(country: "CA", state: "Quebec", location: "Montreal", organization: "nu12", organization_unit: "cert-manager", common_name: "Root CA", expirity_date: "2030-01-01", key: keys(:root), user: users(:one))
     assert_not_nil root.name
     assert_not_nil root.content
+    assert_not_nil root.serial
     assert_equal "Root CA", root.common_name
     assert_equal :root, root.type
 
     intermediate = Certificate.create!(country: "CA", state: "Quebec", location: "Montreal", organization: "nu12", organization_unit: "cert-manager", common_name: "Intermediate CA", expirity_date: "2030-01-01", key: keys(:intermediate), user: users(:one), parent: certificates(:root))
     assert_not_nil intermediate.name
     assert_not_nil intermediate.content
+    assert_not_nil intermediate.serial
     assert_equal "Intermediate CA", intermediate.common_name
     assert_equal :intermediate, intermediate.type
 
     server = Certificate.create!(country: "CA", state: "Quebec", location: "Montreal", organization: "nu12", organization_unit: "cert-manager", common_name: "Server", expirity_date: "2030-01-01", key: keys(:server), user: users(:one), parent: certificates(:intermediate))
     assert_not_nil server.name
     assert_not_nil server.content
+    assert_not_nil server.serial
     assert_equal "Server", server.common_name
     assert_equal :server, server.type
   end

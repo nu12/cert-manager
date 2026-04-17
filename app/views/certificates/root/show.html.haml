@@ -14,6 +14,6 @@
   .col-3
     = link_to "Export certificate", "#", :class => "btn btn-primary btn-sm w-100 mb-1"
     = link_to "Export private key", "#", :class => "btn btn-primary btn-sm w-100 mb-1"
-    = link_to "Renew", renew_path(@certificate), :class => "btn btn-primary btn-sm w-100 mb-1"
-    = link_to "Delete", delete_path(@certificate), :class => "btn btn-danger btn-sm w-100 mb-1"
+    = link_to "Renew", renew_path(@certificate.serial), :class => "btn btn-primary btn-sm w-100 mb-1"
+    = link_to "Delete", delete_path(@certificate.serial), :class => "btn btn-danger btn-sm w-100 mb-1"
   

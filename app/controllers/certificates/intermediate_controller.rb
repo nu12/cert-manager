@@ -8,12 +8,13 @@ class Certificates::IntermediateController < ApplicationController
   end
   private
     def set_certificates
-      @certificate = Certificate.find(params[:id])
+      params.expect(:serial, :root_serial)
+      @certificate = Certificate.find_by(serial: params[:serial])
       authorize @certificate
       raise ArgumentError, "#{@certificate.common_name} is not an intermediate certificate." unless @certificate.is_intermediate?
     end
     def validate_parents
-      @root_certificate = Certificate.find(params[:root_id])
+      @root_certificate = Certificate.find_by(serial: params[:root_serial])
       authorize @root_certificate, policy_class: CertificatePolicy
       raise ArgumentError, "#{@root_certificate.common_name} is not a root certificate." unless @root_certificate.is_root?
     end

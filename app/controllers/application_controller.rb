@@ -10,8 +10,8 @@ class ApplicationController < ActionController::Base
   private
     def redirect_certificate(certificate, msg = nil, status = :see_other)
       return redirect_to root_path, notice: msg, status: status unless certificate
-      return redirect_to certificates_root_path(certificate), notice: msg ? msg : "Root certificate was successfully created.", status: status if certificate.type == :root
-      return redirect_to certificates_root_intermediate_path(certificate.parent, certificate), notice: msg ? msg : "Intermediate certificate was successfully created.", status: status if certificate.type == :intermediate
-      redirect_to certificates_root_intermediate_server_path(certificate.parent.parent, certificate.parent, certificate), notice: msg ? msg : "Server certificate was successfully created.", status: status if certificate.type == :server
+      return redirect_to certificates_root_path(certificate.serial), notice: msg ? msg : "Root certificate was successfully created.", status: status if certificate.is_root?
+      return redirect_to certificates_root_intermediate_path(certificate.parent.serial, certificate.serial), notice: msg ? msg : "Intermediate certificate was successfully created.", status: status if certificate.is_intermediate?
+      redirect_to certificates_root_intermediate_server_path(certificate.parent.parent.serial, certificate.parent.serial, certificate.serial), notice: msg ? msg : "Server certificate was successfully created.", status: status if certificate.is_server?
     end
 end

@@ -5,15 +5,15 @@ class Certificates::ServerControllerTest < ActionDispatch::IntegrationTest
   setup { sign_in_as(users(:one)) }
 
   test "show" do
-    get certificates_root_intermediate_server_url(certificates(:root), certificates(:intermediate), certificates(:server))
+    get certificates_root_intermediate_server_url(certificates(:root).serial, certificates(:intermediate).serial, certificates(:server).serial)
     assert_response :success
 
     assert_raises(ArgumentError) do
-      get certificates_root_intermediate_server_url(certificates(:root), certificates(:intermediate), certificates(:root))
+      get certificates_root_intermediate_server_url(certificates(:root).serial, certificates(:intermediate).serial, certificates(:root).serial)
     end
 
     assert_raises(ArgumentError) do
-      get certificates_root_intermediate_server_url(certificates(:root), certificates(:intermediate), certificates(:intermediate))
+      get certificates_root_intermediate_server_url(certificates(:root).serial, certificates(:intermediate).serial, certificates(:intermediate).serial)
     end
   end
 
@@ -59,13 +59,13 @@ class Certificates::ServerControllerTest < ActionDispatch::IntegrationTest
       post certificates_url, params: { certificate: { certificate_id: certificate_id, country: country, state: state, location: location, organization: organization, organization_unit: organization_unit, common_name: common_name, expirity_date: expirity_date } }
     end
 
-    assert_redirected_to certificates_root_intermediate_server_url(Certificate.last.parent.parent, Certificate.last.parent, Certificate.last)
+    assert_redirected_to certificates_root_intermediate_server_url(Certificate.last.parent.parent.serial, Certificate.last.parent.serial, Certificate.last.serial)
     assert_notice "Server certificate was successfully created"
   end
 
   test "destroy" do
     assert_difference("Certificate.count", -1) do
-      delete delete_url(certificates(:server))
+      delete delete_url(certificates(:server).serial)
     end
     assert_response :see_other
     assert_notice "Certificate was successfully deleted"
@@ -74,12 +74,12 @@ class Certificates::ServerControllerTest < ActionDispatch::IntegrationTest
   test "destroy keys" do
     # Do not delete key as there is a certificate associate to it
     assert_difference("Key.count", 0) do
-      delete delete_url(certificates(:server))
+      delete delete_url(certificates(:server).serial)
     end
 
     # Delete key as there is no other certificate associate to it
     assert_difference("Key.count", -1) do
-      delete delete_url(certificates(:server_renewed))
+      delete delete_url(certificates(:server_renewed).serial)
     end
   end
 end

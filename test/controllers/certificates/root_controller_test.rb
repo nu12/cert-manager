@@ -10,15 +10,15 @@ class RootControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "show" do
-    get certificates_root_url(certificates(:root))
+    get certificates_root_url(certificates(:root).serial)
     assert_response :success
 
     assert_raises(ArgumentError) do
-      get certificates_root_url(certificates(:intermediate))
+      get certificates_root_url(certificates(:intermediate).serial)
     end
 
     assert_raises(ArgumentError) do
-      get certificates_root_url(certificates(:server))
+      get certificates_root_url(certificates(:server).serial)
     end
   end
 
@@ -77,22 +77,22 @@ class RootControllerTest < ActionDispatch::IntegrationTest
       post certificates_url, params: { certificate: { country: country, state: state, location: location, organization: organization, organization_unit: organization_unit, common_name: common_name, expirity_date: expirity_date } }
     end
 
-    assert_redirected_to certificates_root_url(Certificate.last)
+    assert_redirected_to certificates_root_url(Certificate.last.serial)
     assert_notice "Root certificate was successfully created"
   end
 
   test "destroy" do
     assert_difference("Certificate.count", 0) do
-      delete delete_url(certificates(:root))
+      delete delete_url(certificates(:root).serial)
     end
     assert_response :see_other
     assert_notice "Certificate cannot be deleted"
 
     assert_difference("Certificate.count", -4) do
-      delete delete_url(certificates(:server))
-      delete delete_url(certificates(:server_renewed))
-      delete delete_url(certificates(:intermediate))
-      delete delete_url(certificates(:root))
+      delete delete_url(certificates(:server).serial)
+      delete delete_url(certificates(:server_renewed).serial)
+      delete delete_url(certificates(:intermediate).serial)
+      delete delete_url(certificates(:root).serial)
     end
     assert_response :see_other
     assert_notice "Certificate was successfully deleted"
@@ -100,10 +100,10 @@ class RootControllerTest < ActionDispatch::IntegrationTest
 
   test "destroy keys" do
     assert_difference("Key.count", -3) do
-      delete delete_url(certificates(:server))
-      delete delete_url(certificates(:server_renewed))
-      delete delete_url(certificates(:intermediate))
-      delete delete_url(certificates(:root))
+      delete delete_url(certificates(:server).serial)
+      delete delete_url(certificates(:server_renewed).serial)
+      delete delete_url(certificates(:intermediate).serial)
+      delete delete_url(certificates(:root).serial)
     end
   end
 end

@@ -5,15 +5,15 @@ class Certificates::IntermediateControllerTest < ActionDispatch::IntegrationTest
   setup { sign_in_as(users(:one)) }
 
   test "show" do
-    get certificates_root_intermediate_url(certificates(:root), certificates(:intermediate))
+    get certificates_root_intermediate_url(certificates(:root).serial, certificates(:intermediate).serial)
     assert_response :success
 
     assert_raises(ArgumentError) do
-      get certificates_root_intermediate_url(certificates(:root), certificates(:root))
+      get certificates_root_intermediate_url(certificates(:root).serial, certificates(:root).serial)
     end
 
     assert_raises(ArgumentError) do
-      get certificates_root_intermediate_url(certificates(:root), certificates(:server))
+      get certificates_root_intermediate_url(certificates(:root).serial, certificates(:server).serial)
     end
   end
 
@@ -72,21 +72,21 @@ class Certificates::IntermediateControllerTest < ActionDispatch::IntegrationTest
       post certificates_url, params: { certificate: { country: country, state: state, location: location, organization: organization, organization_unit: organization_unit, common_name: common_name, certificate_id: certificate_id, expirity_date: expirity_date } }
     end
 
-    assert_redirected_to certificates_root_intermediate_url(Certificate.last.parent, Certificate.last)
+    assert_redirected_to certificates_root_intermediate_url(Certificate.last.parent.serial, Certificate.last.serial)
     assert_notice "Intermediate certificate was successfully created"
   end
 
   test "destroy" do
     assert_difference("Certificate.count", 0) do
-      delete delete_url(certificates(:intermediate))
+      delete delete_url(certificates(:intermediate).serial)
     end
     assert_response :see_other
     assert_notice "Certificate cannot be deleted"
 
     assert_difference("Certificate.count", -3) do
-      delete delete_url(certificates(:server))
-      delete delete_url(certificates(:server_renewed))
-      delete delete_url(certificates(:intermediate))
+      delete delete_url(certificates(:server).serial)
+      delete delete_url(certificates(:server_renewed).serial)
+      delete delete_url(certificates(:intermediate).serial)
     end
     assert_response :see_other
     assert_notice "Certificate was successfully deleted"
@@ -94,9 +94,9 @@ class Certificates::IntermediateControllerTest < ActionDispatch::IntegrationTest
 
   test "destroy keys" do
     assert_difference("Key.count", -2) do
-      delete delete_url(certificates(:server))
-      delete delete_url(certificates(:server_renewed))
-      delete delete_url(certificates(:intermediate))
+      delete delete_url(certificates(:server).serial)
+      delete delete_url(certificates(:server_renewed).serial)
+      delete delete_url(certificates(:intermediate).serial)
     end
   end
 end

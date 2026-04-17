@@ -15,4 +15,4 @@
             This certificate and all its children (if any) will be deleted.
             %div.text-start.mt-3.alert.alert-danger{:role => "alert"}
               You will not be prompted to confirm after clicking in the button below. Proceed with caution.
-            = link_to "Delete certificate", delete_path(@certificate), class: "btn btn-danger form-control", data: {turbo_method: :delete}
+            = link_to "Delete certificate", delete_path(@certificate.serial), class: "btn btn-danger form-control", data: {turbo_method: :delete}

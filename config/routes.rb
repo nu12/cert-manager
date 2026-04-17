@@ -1,15 +1,15 @@
 Rails.application.routes.draw do
   namespace :certificates do
-    resources :root, only: [ :index, :show, :new ] do
-      resources :intermediate, only: [ :show, :new ] do
-        resources :server, only: [ :show, :new ]
+    resources :root, only: [ :index, :show, :new ], param: :serial do
+      resources :intermediate, only: [ :show, :new ], param: :serial do
+        resources :server, only: [ :show, :new ], param: :serial
       end
     end
   end
 
   resources :certificates, only: [ :create ]
-  resources :renew, only: [ :show, :update ]
-  resources :delete, only: [ :show, :destroy ]
+  resources :renew, only: [ :show, :update ], param: :serial
+  resources :delete, only: [ :show, :destroy ], param: :serial
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   # Can be used by load balancers and uptime monitors to verify that the app is live.

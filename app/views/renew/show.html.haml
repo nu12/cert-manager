@@ -3,7 +3,7 @@
   = @certificate.common_name
 
 .container.w-50
-  = form_with :url => renew_path(@certificate), :method => :put do |form|
+  = form_with :url => renew_path(@certificate.serial), :method => :put do |form|
     - if @error
       .alert.alert-danger
         = @error

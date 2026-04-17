@@ -12,7 +12,7 @@ class CertificatePolicyTest < ActionDispatch::IntegrationTest
   test "show other's user root certificate" do
     sign_in_as(users(:two))
     assert_raises(Pundit::NotAuthorizedError) do
-      get certificates_root_url(certificates(:root))
+      get certificates_root_url(certificates(:root).serial)
     end
   end
 
@@ -31,7 +31,7 @@ class CertificatePolicyTest < ActionDispatch::IntegrationTest
   test "show other's user intermediate certificate" do
     sign_in_as(users(:two))
     assert_raises(Pundit::NotAuthorizedError) do
-      get certificates_root_intermediate_url(certificates(:root), certificates(:intermediate))
+      get certificates_root_intermediate_url(certificates(:root).serial, certificates(:intermediate).serial)
     end
   end
 
@@ -45,11 +45,11 @@ class CertificatePolicyTest < ActionDispatch::IntegrationTest
   test "new intermediate certificate with wrong parent certificate" do
     sign_in_as(users(:one))
     assert_raises(ArgumentError) do
-      get new_certificates_root_intermediate_url(certificates(:intermediate))
+      get new_certificates_root_intermediate_url(certificates(:intermediate).serial)
     end
 
     assert_raises(ArgumentError) do
-      get new_certificates_root_intermediate_url(certificates(:server))
+      get new_certificates_root_intermediate_url(certificates(:server).serial)
     end
   end
 
@@ -63,7 +63,7 @@ class CertificatePolicyTest < ActionDispatch::IntegrationTest
   test "show other's user server certificate" do
     sign_in_as(users(:two))
     assert_raises(Pundit::NotAuthorizedError) do
-      get certificates_root_intermediate_server_url(certificates(:root), certificates(:intermediate), certificates(:server))
+      get certificates_root_intermediate_server_url(certificates(:root).serial, certificates(:intermediate).serial, certificates(:server).serial)
     end
   end
 
@@ -77,11 +77,11 @@ class CertificatePolicyTest < ActionDispatch::IntegrationTest
   test "new server certificate with wrong parent certificate" do
     sign_in_as(users(:one))
     assert_raises(ArgumentError) do
-      get new_certificates_root_intermediate_server_url(certificates(:root), certificates(:root))
+      get new_certificates_root_intermediate_server_url(certificates(:root).serial, certificates(:root).serial)
     end
 
     assert_raises(ArgumentError) do
-      get new_certificates_root_intermediate_server_url(certificates(:root), certificates(:server))
+      get new_certificates_root_intermediate_server_url(certificates(:root).serial, certificates(:server).serial)
     end
   end
 
