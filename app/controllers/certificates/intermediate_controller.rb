@@ -2,6 +2,8 @@ class Certificates::IntermediateController < ApplicationController
   before_action :set_certificates, only: %i[ show ]
   before_action :validate_parents
   def show
+    @intermediate_certificate = @certificate
+    render "certificates/show"
   end
   def new
     @certificate = Certificate.new(certificate_id: @root_certificate.id)

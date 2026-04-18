@@ -1,0 +1,34 @@
+%h1 Certificates
+
+= render partial: "layouts/certificates", locals: {root_certificate: @root_certificate, intermediate_certificate: @intermediate_certificate || Certificate.new, server_certificate: @server_certificate || Certificate.new}
+
+%hr
+
+%h3
+  = "#{@certificate.type.capitalize} certificate details (#{@certificate.common_name})"
+
+.row
+  .col-9
+    .container#certificate-contents
+      = CertManager::Certificate.parse(@certificate).to_text
+  .col-3
+    = link_to "Export certificate (.crt)", "#", :class => "btn btn-primary btn-sm w-100 mb-1"
+    = link_to "Export private key", "#", :class => "btn btn-primary btn-sm w-100 mb-1"
+    - if @certificate.is_intermediate?
+      = link_to "Export chain", "#", :class => "btn btn-primary btn-sm w-100 mb-1"
+    - if @certificate.is_server?
+      = link_to "Export certificate (.pfx)", "#", :class => "btn btn-primary btn-sm w-100 mb-1"
+    = link_to "Renew", renew_path(@certificate.serial), :class => "btn btn-primary btn-sm w-100 mb-1"
+    .row
+      .col
+        .accordion#accordionExpenses
+          .accordion-item
+            %h2.accordion-header
+              %button.accordion-button.bg-danger.text-white.collapsed{:type => "button", "data-bs-toggle" => "collapse", "data-bs-target" => "#collapseOne", "aria-expanded" => "false", "aria-controls" => "collapseOne"}
+                Delete
+            #collapseOne.accordion-collapse.collapse{"data-bs-parent" => "#accordionExpenses"}
+              .accordion-body
+                This certificate will be deleted.
+                %div.text-start.mt-3.alert.alert-danger{:role => "alert"}
+                  You will not be prompted to confirm after clicking in the button below. Proceed with caution.
+                = link_to "Delete certificate", delete_path(@certificate.serial), class: "btn btn-danger form-control", data: {turbo_method: :delete}

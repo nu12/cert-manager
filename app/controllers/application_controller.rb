@@ -8,10 +8,10 @@ class ApplicationController < ActionController::Base
   stale_when_importmap_changes
 
   private
-    def redirect_certificate(certificate, msg = nil, status = :see_other)
-      return redirect_to root_path, notice: msg, status: status unless certificate
-      return redirect_to certificates_root_path(certificate.serial), notice: msg ? msg : "Root certificate was successfully created.", status: status if certificate.is_root?
-      return redirect_to certificates_root_intermediate_path(certificate.parent.serial, certificate.serial), notice: msg ? msg : "Intermediate certificate was successfully created.", status: status if certificate.is_intermediate?
-      redirect_to certificates_root_intermediate_server_path(certificate.parent.parent.serial, certificate.parent.serial, certificate.serial), notice: msg ? msg : "Server certificate was successfully created.", status: status if certificate.is_server?
+    def redirect_certificate(certificate, flash)
+      return redirect_to root_path, flash unless certificate
+      return redirect_to certificates_root_path(certificate.serial), flash if certificate.is_root?
+      return redirect_to certificates_root_intermediate_path(certificate.parent.serial, certificate.serial), flash if certificate.is_intermediate?
+      redirect_to certificates_root_intermediate_server_path(certificate.parent.parent.serial, certificate.parent.serial, certificate.serial), flash if certificate.is_server?
     end
 end

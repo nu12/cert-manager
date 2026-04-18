@@ -5,7 +5,7 @@ class ServerCertificatesTest < ApplicationSystemTestCase
     visit create_session_url(users(:one).email_address_login_token)
     click_on certificates(:root).common_name
     click_on certificates(:intermediate).common_name
-    find('a#new-server-link').click
+    find("a#new-server-link").click
     fill_in "Country", with: "CA"
     fill_in "State", with: "Quebec"
     fill_in "Location", with: "Montreal"

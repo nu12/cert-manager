@@ -23,7 +23,7 @@ class RenewController < ApplicationController
     )
 
     if new_certificate.save
-      redirect_certificate new_certificate
+      redirect_certificate(new_certificate, { notice: "#{new_certificate.type.capitalize} certificate was successfully created.", status: :see_other })
     else
       render "forms/certificate", status: :unprocessable_entity
     end
