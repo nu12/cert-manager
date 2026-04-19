@@ -1,9 +1,4 @@
 class RenewController < ApplicationController
-  def show
-    @certificate = Certificate.find_by(serial: params[:serial])
-    authorize @certificate
-  end
-
   def update
     params.expect([ :serial, :id, :expirity_date ])
     @certificate = Certificate.find_by(serial: params[:serial])
@@ -23,7 +18,7 @@ class RenewController < ApplicationController
     )
 
     if new_certificate.save
-      redirect_certificate new_certificate
+      redirect_certificate(new_certificate, { notice: "#{new_certificate.type.capitalize} certificate was successfully created.", status: :see_other })
     else
       render "forms/certificate", status: :unprocessable_entity
     end

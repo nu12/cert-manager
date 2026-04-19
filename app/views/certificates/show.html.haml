@@ -1,0 +1,52 @@
+%h1 Certificates
+
+= render partial: "layouts/certificates", locals: {root_certificate: @root_certificate, intermediate_certificate: @intermediate_certificate || Certificate.new, server_certificate: @server_certificate || Certificate.new}
+
+%hr
+
+%h3
+  = "#{@certificate.type.capitalize} certificate details (#{@certificate.common_name})"
+
+.row
+  .col-9
+    .container#certificate-contents
+      = CertManager::Certificate.parse(@certificate).to_text
+  .col-3
+    = link_to "Export certificate (.crt)", "#", :class => "btn btn-primary form-control mb-1"
+    = link_to "Export private key", "#", :class => "btn btn-primary form-control mb-1"
+    - if @certificate.is_intermediate?
+      = link_to "Export chain", "#", :class => "btn btn-primary form-control mb-1"
+    - if @certificate.is_server?
+      = link_to "Export certificate (.pfx)", "#", :class => "btn btn-primary form-control mb-1"
+    .row.mb-1
+      .col
+        .accordion#accordionRenew
+          .accordion-item
+            %h2.accordion-header
+              %button.accordion-button.bg-primary.text-white.p-2.d-block.text-center.collapsed{:type => "button", "data-bs-toggle" => "collapse", "data-bs-target" => "#collapseOne", "aria-expanded" => "false", "aria-controls" => "collapseOne"}
+                Renew
+            #collapseOne.accordion-collapse.collapse{"data-bs-parent" => "#accordionRenew"}
+              .accordion-body
+                Renew this certificate.
+                %div.text-start.mt-3.alert.alert-info{:role => "alert"}
+                  Select an expirity date for the renewed certificate. All other information stay the same, including signature key.
+                = form_with :url => renew_path(@certificate.serial), :method => :put do |form|
+                  = form.hidden_field :id, class: "form-control", value: @certificate.id
+                  .field.mb-3
+                    = form.label :expirity_date, {class: "form-label"}
+                    = form.date_field :expirity_date, class: "form-control", required: "true"
+                  .actions.mb-3
+                    = form.submit 'Renew certificate', class: "form-control btn btn-primary"
+    .row
+      .col
+        .accordion#accordionDelete
+          .accordion-item
+            %h2.accordion-header
+              %button.accordion-button.bg-danger.text-white.p-2.d-block.text-center.collapsed{:type => "button", "data-bs-toggle" => "collapse", "data-bs-target" => "#collapseTwo", "aria-expanded" => "false", "aria-controls" => "collapseOne"}
+                Delete
+            #collapseTwo.accordion-collapse.collapse{"data-bs-parent" => "#accordionDelete"}
+              .accordion-body
+                This certificate will be deleted.
+                %div.text-start.mt-3.alert.alert-danger{:role => "alert"}
+                  You will not be prompted to confirm after clicking in the button below. Proceed with caution.
+                = link_to "Delete certificate", delete_path(@certificate.serial), class: "btn btn-danger form-control", data: {turbo_method: :delete}

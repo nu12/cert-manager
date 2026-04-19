@@ -4,6 +4,8 @@ class Certificates::RootController < ApplicationController
   end
 
   def show
+    @root_certificate = @certificate
+    render "certificates/show"
   end
 
   def new

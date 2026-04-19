@@ -3,7 +3,7 @@ class CertificatesController < ApplicationController
     @certificate = Certificate.new(certificate_params)
 
     if @certificate.save
-      redirect_certificate @certificate
+      redirect_certificate(@certificate, { notice: "#{@certificate.type.capitalize} certificate was successfully created." })
     else
       render "certificates/root/new", status: :unprocessable_entity
     end

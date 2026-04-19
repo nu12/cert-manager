@@ -3,10 +3,7 @@ require "application_system_test_case"
 class RootCertificatesTest < ApplicationSystemTestCase
   test "create certificate" do
     visit create_session_url(User.take.email_address_login_token)
-    within("div#root-card") do
-      click_on "New"
-    end
-
+    find("a#new-root-link").click
     fill_in "Country", with: "CA"
     fill_in "State", with: "Quebec"
     fill_in "Location", with: "Montreal"

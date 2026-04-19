@@ -7,7 +7,7 @@ class RenewTest < ApplicationSystemTestCase
     assert_content certificates(:root).common_name
     click_on "Renew"
     fill_in "Expirity date", with: "01-01-2030"
-    click_on "Save"
+    click_on "Renew certificate"
     assert_content "Root certificate was successfully created"
   end
 
@@ -19,7 +19,7 @@ class RenewTest < ApplicationSystemTestCase
     assert_content "Intermediate certificate details (#{certificates(:intermediate).common_name})"
     click_on "Renew"
     fill_in "Expirity date", with: "01-01-2030"
-    click_on "Save"
+    click_on "Renew certificate"
     assert_content "Intermediate certificate was successfully created"
   end
 
@@ -31,7 +31,7 @@ class RenewTest < ApplicationSystemTestCase
     assert_content "Server certificate details (#{certificates(:server).common_name})"
     click_on "Renew"
     fill_in "Expirity date", with: "01-01-2030"
-    click_on "Save"
+    click_on "Renew certificate"
     assert_content "Server certificate was successfully created"
   end
 end

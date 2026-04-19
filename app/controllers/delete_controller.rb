@@ -1,14 +1,11 @@
 class DeleteController < ApplicationController
   before_action :set_certificate
-  def show
-  end
-
   def destroy
     if @certificate.destroy!
       @certificate.key.destroy! if @certificate.key.certificates.count == 0
-      redirect_certificate(@certificate.parent, "Certificate was successfully deleted.")
+      redirect_certificate(@certificate.parent, { notice: "Certificate was successfully deleted.", status: :see_other })
     else
-      redirect_to delete_path(@certificate.serial), alert: "Certificate cannot be deleted.", status: :see_other
+      redirect_certificate(@certificate, { alert: "Certificate cannot be deleted.", status: :see_other })
     end
   end
   private
