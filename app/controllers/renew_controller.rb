@@ -1,9 +1,4 @@
 class RenewController < ApplicationController
-  def show
-    @certificate = Certificate.find_by(serial: params[:serial])
-    authorize @certificate
-  end
-
   def update
     params.expect([ :serial, :id, :expirity_date ])
     @certificate = Certificate.find_by(serial: params[:serial])
