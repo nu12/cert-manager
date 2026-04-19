@@ -12,12 +12,12 @@
     .container#certificate-contents
       = CertManager::Certificate.parse(@certificate).to_text
   .col-3
-    = link_to "Export certificate (.crt)", "#", :class => "btn btn-primary btn-sm w-100 mb-1"
-    = link_to "Export private key", "#", :class => "btn btn-primary btn-sm w-100 mb-1"
+    = link_to "Export certificate (.crt)", "#", :class => "btn btn-primary form-control mb-1"
+    = link_to "Export private key", "#", :class => "btn btn-primary form-control mb-1"
     - if @certificate.is_intermediate?
-      = link_to "Export chain", "#", :class => "btn btn-primary btn-sm w-100 mb-1"
+      = link_to "Export chain", "#", :class => "btn btn-primary form-control mb-1"
     - if @certificate.is_server?
-      = link_to "Export certificate (.pfx)", "#", :class => "btn btn-primary btn-sm w-100 mb-1"
+      = link_to "Export certificate (.pfx)", "#", :class => "btn btn-primary form-control mb-1"
     .row.mb-1
       .col
         .accordion#accordionRenew
