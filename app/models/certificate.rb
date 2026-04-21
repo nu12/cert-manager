@@ -7,6 +7,7 @@ class Certificate < ApplicationRecord
   has_encrypted :content
 
   validates :serial, uniqueness: true
+  validates_presence_of :country, :state, :location, :organization, :organization_unit, :common_name, :expirity_date
 
   before_validation :set_serial
   after_create :set_content

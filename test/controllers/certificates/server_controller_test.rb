@@ -27,33 +27,33 @@ class Certificates::ServerControllerTest < ActionDispatch::IntegrationTest
     common_name = "Server Test"
     expirity_date = "2030-01-01"
 
-    # # Missing C
-    # post certificates_url, params: { certificate: { certificate_id: certificate_id, state: state, location: location, organization: organization, organization_unit: organization_unit, common_name: common_name, expirity_date: expirity_date }}
-    # assert_response :bad_request
+    # Missing country
+    post certificates_url, params: { certificate: { state: state, location: location, organization: organization, organization_unit: organization_unit, common_name: common_name, expirity_date: expirity_date, certificate_id: certificate_id } }
+    assert_response :unprocessable_content
 
-    # # Missing ST
-    # post certificates_url, params: { certificate: { certificate_id: certificate_id, country: country, location: location, organization: organization, organization_unit: organization_unit, common_name: common_name, expirity_date: expirity_date }}
-    # assert_response :bad_request
+    # Missing state
+    post certificates_url, params: { certificate: { country: country, location: location, organization: organization, organization_unit: organization_unit, common_name: common_name, expirity_date: expirity_date, certificate_id: certificate_id } }
+    assert_response :unprocessable_content
 
-    # # Missing L
-    # post certificates_url, params: { certificate: { certificate_id: certificate_id, country: country, state: state, organization: organization, organization_unit: organization_unit, common_name: common_name, expirity_date: expirity_date }}
-    # assert_response :bad_request
+    # Missing location
+    post certificates_url, params: { certificate: { country: country, state: state, organization: organization, organization_unit: organization_unit, common_name: common_name, expirity_date: expirity_date, certificate_id: certificate_id } }
+    assert_response :unprocessable_content
 
-    # # Missing O
-    # post certificates_url, params: { certificate: { certificate_id: certificate_id, country: country, state: state, location: location, organization_unit: organization_unit, common_name: common_name, expirity_date: expirity_date }}
-    # assert_response :bad_request
+    # Missing organization
+    post certificates_url, params: { certificate: { country: country, state: state, location: location, organization_unit: organization_unit, common_name: common_name, expirity_date: expirity_date, certificate_id: certificate_id } }
+    assert_response :unprocessable_content
 
-    # # Missing OU
-    # post certificates_url, params: { certificate: { certificate_id: certificate_id, country: country, state: state, location: location, organization: organization, common_name: common_name, expirity_date: expirity_date }}
-    # assert_response :bad_request
+    # Missing organization_unit
+    post certificates_url, params: { certificate: { country: country, state: state, location: location, organization: organization, common_name: common_name, expirity_date: expirity_date, certificate_id: certificate_id } }
+    assert_response :unprocessable_content
 
-    # # Missing CN
-    # post certificates_url, params: { certificate: { certificate_id: certificate_id, country: country, state: state, location: location, organization: organization, organization_unit: organization_unit, expirity_date: expirity_date }}
-    # assert_response :bad_request
+    # Missing common_name
+    post certificates_url, params: { certificate: { country: country, state: state, location: location, organization: organization, organization_unit: organization_unit, expirity_date: expirity_date, certificate_id: certificate_id } }
+    assert_response :unprocessable_content
 
-    # # Missing expirity date
-    # post certificates_url, params: { certificate: { certificate_id: certificate_id, country: country, state: state, location: location, organization: organization, organization_unit: organization_unit, common_name: common_name }}
-    # assert_response :bad_request
+    # Missing expirity_date
+    post certificates_url, params: { certificate: { country: country, state: state, location: location, organization: organization, organization_unit: organization_unit, common_name: common_name, certificate_id: certificate_id } }
+    assert_response :unprocessable_content
 
     assert_difference("Certificate.count") do
       post certificates_url, params: { certificate: { certificate_id: certificate_id, country: country, state: state, location: location, organization: organization, organization_unit: organization_unit, common_name: common_name, expirity_date: expirity_date } }

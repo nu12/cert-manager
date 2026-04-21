@@ -27,49 +27,36 @@ class Certificates::IntermediateControllerTest < ActionDispatch::IntegrationTest
     common_name = "Intermediate Test"
     expirity_date = "2030-01-01"
 
-    # # Key too small
-    # post certificates_url, params: { authority_id: authority_id, authority_password: authority_password, country: country, state: state, location: location, organization: organization, organization_unit: organization_unit, common_name: common_name, key_size: "0", password: key_password, validity: validity }
-    # assert_response :unprocessable_content
-    # assert_select "div.alert", "EVP_PKEY_CTX_ctrl_str(ctx, \"rsa_keygen_bits\", \"0\"): key size too small"
+    # Missing country
+    post certificates_url, params: { certificate: { state: state, location: location, organization: organization, organization_unit: organization_unit, common_name: common_name, expirity_date: expirity_date, certificate_id: certificate_id } }
+    assert_response :unprocessable_content
 
-    # # Missing key size
-    # post certificates_url, params: { authority_id: authority_id, authority_password: authority_password, country: country, state: state, location: location, organization: organization, organization_unit: organization_unit, common_name: common_name, key_size: "", password: key_password, validity: validity }
-    # assert_response :bad_request
+    # Missing state
+    post certificates_url, params: { certificate: { country: country, location: location, organization: organization, organization_unit: organization_unit, common_name: common_name, expirity_date: expirity_date, certificate_id: certificate_id } }
+    assert_response :unprocessable_content
 
-    # # Missing C
-    # post certificates_url, params: { authority_id: authority_id, authority_password: authority_password, state: state, location: location, organization: organization, organization_unit: organization_unit, common_name: common_name, key_size: key_size, password: key_password, validity: validity }
-    # assert_response :bad_request
+    # Missing location
+    post certificates_url, params: { certificate: { country: country, state: state, organization: organization, organization_unit: organization_unit, common_name: common_name, expirity_date: expirity_date, certificate_id: certificate_id } }
+    assert_response :unprocessable_content
 
-    # # Missing ST
-    # post certificates_url, params: { authority_id: authority_id, authority_password: authority_password, country: country, location: location, organization: organization, organization_unit: organization_unit, common_name: common_name, key_size: key_size, password: key_password, validity: validity }
-    # assert_response :bad_request
+    # Missing organization
+    post certificates_url, params: { certificate: { country: country, state: state, location: location, organization_unit: organization_unit, common_name: common_name, expirity_date: expirity_date, certificate_id: certificate_id } }
+    assert_response :unprocessable_content
 
-    # # Missing L
-    # post certificates_url, params: { authority_id: authority_id, authority_password: authority_password, country: country, state: state, organization: organization, organization_unit: organization_unit, common_name: common_name, key_size: key_size, password: key_password, validity: validity }
-    # assert_response :bad_request
+    # Missing organization_unit
+    post certificates_url, params: { certificate: { country: country, state: state, location: location, organization: organization, common_name: common_name, expirity_date: expirity_date, certificate_id: certificate_id } }
+    assert_response :unprocessable_content
 
-    # # Missing O
-    # post certificates_url, params: { authority_id: authority_id, authority_password: authority_password, country: country, state: state, location: location, organization_unit: organization_unit, common_name: common_name, key_size: key_size, password: key_password, validity: validity }
-    # assert_response :bad_request
+    # Missing common_name
+    post certificates_url, params: { certificate: { country: country, state: state, location: location, organization: organization, organization_unit: organization_unit, expirity_date: expirity_date, certificate_id: certificate_id } }
+    assert_response :unprocessable_content
 
-    # # Missing OU
-    # post certificates_url, params: { authority_id: authority_id, authority_password: authority_password, country: country, state: state, location: location, organization: organization, common_name: common_name, key_size: key_size, password: key_password, validity: validity }
-    # assert_response :bad_request
-
-    # # Missing CN
-    # post certificates_url, params: { authority_id: authority_id, authority_password: authority_password, country: country, state: state, location: location, organization: organization, organization_unit: organization_unit, key_size: key_size, password: key_password, validity: validity }
-    # assert_response :bad_request
-
-    # # Missing validity
-    # post certificates_url, params: { authority_id: authority_id, authority_password: authority_password, country: country, state: state, location: location, organization: organization, organization_unit: organization_unit, common_name: common_name, key_size: key_size, password: key_password }
-    # assert_response :bad_request
-
-    # # Wrong authority password
-    # post certificates_url, params: { authority_id: authority_id, authority_password: "wrong-password", country: country, state: state, location: location, organization: organization, organization_unit: organization_unit, common_name: common_name, key_size: key_size, password: key_password }
-    # assert_response :bad_request
+    # Missing expirity_date
+    post certificates_url, params: { certificate: { country: country, state: state, location: location, organization: organization, organization_unit: organization_unit, common_name: common_name, certificate_id: certificate_id } }
+    assert_response :unprocessable_content
 
     assert_difference("Certificate.count") do
-      post certificates_url, params: { certificate: { country: country, state: state, location: location, organization: organization, organization_unit: organization_unit, common_name: common_name, certificate_id: certificate_id, expirity_date: expirity_date } }
+      post certificates_url, params: { certificate: { country: country, state: state, location: location, organization: organization, organization_unit: organization_unit, common_name: common_name, expirity_date: expirity_date, certificate_id: certificate_id } }
     end
 
     assert_redirected_to certificates_root_intermediate_url(Certificate.last.parent.serial, Certificate.last.serial)
