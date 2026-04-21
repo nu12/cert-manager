@@ -36,6 +36,10 @@ class Certificate < ApplicationRecord
     :server if is_server?
   end
 
+  def pem
+    CertManager::Certificate.parse(self).to_pem
+  end
+
   private
     def set_serial
       self.serial = SecureRandom.hex(20)

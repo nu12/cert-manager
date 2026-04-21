@@ -12,22 +12,22 @@ class CertificatesTest < ApplicationSystemTestCase
     click_on root.common_name
     assert_content "Root certificate details (#{root.common_name})"
     assert_content "Export certificate"
-    assert_content "Export private key"
+    assert_content "Export key"
     assert_content "Renew"
     assert_content "Delete"
 
     click_on intermediate.common_name
     assert_content "Intermediate certificate details (#{intermediate.common_name})"
     assert_content "Export certificate"
-    assert_content "Export private key"
+    assert_content "Export key"
     assert_content "Export chain"
     assert_content "Renew"
     assert_content "Delete"
 
     click_on server.common_name, match: :first
     assert_content "Server certificate details (#{server.common_name})"
-    assert_content "Export certificate (.crt)"
-    assert_content "Export private key"
+    assert_content "Export certificate"
+    assert_content "Export key"
     assert_content "Export certificate (.pfx)"
     assert_content "Renew"
     assert_content "Delete"
