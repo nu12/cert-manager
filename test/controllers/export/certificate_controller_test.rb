@@ -17,7 +17,7 @@ class Export::CertificateControllerTest < ActionDispatch::IntegrationTest
   test "no authentication" do
     get export_certificate_url(certificates(:root).serial)
     assert_redirected_to new_signin_url
- 
+
     get export_certificate_url(certificates(:intermediate).serial)
     assert_redirected_to new_signin_url
 
