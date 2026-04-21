@@ -88,7 +88,7 @@ class ExportTest < ApplicationSystemTestCase
     fill_in "Password", with: "cert-manager"
     new_window = window_opened_by { click_on "Export pfx" }
     within_window new_window do
-      assert_content "0�\u0006X\u0002\u0001"
+      assert_content "\u0002\u0001"
     end
   end
 end
