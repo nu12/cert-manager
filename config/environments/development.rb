@@ -77,4 +77,6 @@ Rails.application.configure do
   # config.generators.apply_rubocop_autocorrect_after_generate!
 
   config.key_size = 512
+
+  Lockbox.master_key = "0000000000000000000000000000000000000000000000000000000000000000"
 end

@@ -14,7 +14,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_12_235628) do
   create_table "certificates", force: :cascade do |t|
     t.integer "certificate_id"
     t.string "common_name"
-    t.text "content"
+    t.text "content_ciphertext"
     t.string "country"
     t.datetime "created_at", null: false
     t.date "expirity_date"
@@ -33,7 +33,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_02_12_235628) do
   end
 
   create_table "keys", force: :cascade do |t|
-    t.text "content"
+    t.text "content_ciphertext"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "user_id", null: false
