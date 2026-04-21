@@ -20,9 +20,9 @@ class CertManagerCertificateTest < ActionDispatch::IntegrationTest
     cert = OpenSSL::X509::Certificate.new raw
     assert_equal 4, cert.extensions.size
     assert_equal "subjectKeyIdentifier", cert.extensions[0].oid
-    assert_equal "0C:1A:9D:D6:7A:7F:7F:78:C7:20:3C:0C:AB:6D:5F:B1:12:37:BA:61", cert.extensions[0].value
+    assert_equal "F7:A9:D9:32:BC:FD:E6:C9:FB:3D:FF:3B:EE:89:5A:B4:D5:FD:71:61", cert.extensions[0].value
     assert_equal "authorityKeyIdentifier", cert.extensions[1].oid
-    assert_equal "0C:1A:9D:D6:7A:7F:7F:78:C7:20:3C:0C:AB:6D:5F:B1:12:37:BA:61", cert.extensions[1].value
+    assert_equal "F7:A9:D9:32:BC:FD:E6:C9:FB:3D:FF:3B:EE:89:5A:B4:D5:FD:71:61", cert.extensions[1].value
     assert_equal "basicConstraints", cert.extensions[2].oid
     assert_equal "CA:TRUE", cert.extensions[2].value
     assert_equal "keyUsage", cert.extensions[3].oid
@@ -40,9 +40,9 @@ class CertManagerCertificateTest < ActionDispatch::IntegrationTest
     cert = OpenSSL::X509::Certificate.new raw
     assert_equal 4, cert.extensions.size
     assert_equal "subjectKeyIdentifier", cert.extensions[0].oid
-    assert_equal "A3:64:66:A4:C6:A1:40:9E:41:43:E9:40:17:41:A3:03:3F:D1:F2:70", cert.extensions[0].value
+    assert_equal "42:B6:30:81:24:3F:25:7D:C6:7D:15:BA:79:DD:C4:F9:6E:B0:AD:A7", cert.extensions[0].value
     assert_equal "authorityKeyIdentifier", cert.extensions[1].oid
-    assert_equal "BE:E2:A0:49:49:50:6B:3B:C8:04:BA:7F:DC:62:4D:8A:DC:F0:E1:ED", cert.extensions[1].value
+    assert_equal "F7:A9:D9:32:BC:FD:E6:C9:FB:3D:FF:3B:EE:89:5A:B4:D5:FD:71:61", cert.extensions[1].value
     assert_equal "basicConstraints", cert.extensions[2].oid
     assert_equal "CA:TRUE, pathlen:0", cert.extensions[2].value
     assert_equal "keyUsage", cert.extensions[3].oid
@@ -60,7 +60,7 @@ class CertManagerCertificateTest < ActionDispatch::IntegrationTest
     cert = OpenSSL::X509::Certificate.new raw
     assert_equal 5, cert.extensions.size
     assert_equal "subjectKeyIdentifier", cert.extensions[0].oid
-    assert_equal "19:D1:A6:E5:D3:D8:C9:F1:C4:27:83:4C:BE:5D:E6:59:8B:6D:91:2F", cert.extensions[0].value
+    assert_equal "AA:E6:D7:9F:75:79:58:24:4B:92:A5:BE:C4:C6:1F:41:EE:3B:EF:56", cert.extensions[0].value
     assert_equal "authorityKeyIdentifier", cert.extensions[1].oid
     assert_equal "DE:32:23:B1:86:68:FC:37:0E:61:3A:7B:5B:5F:CD:29:87:E3:B9:62", cert.extensions[1].value
     assert_equal "basicConstraints", cert.extensions[2].oid

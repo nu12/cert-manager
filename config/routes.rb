@@ -1,4 +1,10 @@
 Rails.application.routes.draw do
+  namespace :export do
+    resources :pfx, only: [ :create ], param: :serial
+    resources :chain, only: [ :show ], param: :serial
+    resources :key, only: [ :show ], param: :serial
+    resources :certificate, only: [ :show ], param: :serial
+  end
   namespace :certificates do
     resources :root, only: [ :index, :show, :new ], param: :serial do
       resources :intermediate, only: [ :show, :new ], param: :serial do
