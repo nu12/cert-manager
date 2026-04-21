@@ -1,7 +1,7 @@
 class CreateCertificates < ActiveRecord::Migration[8.1]
   def change
     create_table :certificates do |t|
-      t.text :content
+      t.text :content_ciphertext
       t.references :user, null: false, foreign_key: true
       t.references :key, null: false, foreign_key: true
       t.references :certificate, null: true, foreign_key: true

@@ -4,6 +4,7 @@ class Certificate < ApplicationRecord
   belongs_to :certificate, optional: true
   has_many :children, class_name: "Certificate", foreign_key: "certificate_id"
   belongs_to :parent, class_name: "Certificate", foreign_key: "certificate_id", optional: true
+  has_encrypted :content
 
   validates :serial, uniqueness: true
 

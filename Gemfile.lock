@@ -167,6 +167,7 @@ GEM
       zeitwerk (>= 2.6.18, < 3.0)
     language_server-protocol (3.17.0.5)
     lint_roller (1.1.0)
+    lockbox (2.2.0)
     logger (1.7.0)
     loofah (2.25.1)
       crass (~> 1.0.2)
@@ -418,6 +419,7 @@ DEPENDENCIES
   importmap-rails
   jbuilder
   kamal
+  lockbox (~> 2.2)
   minitest (< 6)
   propshaft
   puma (>= 5.0)
