@@ -83,4 +83,23 @@ class CertificateTest < ActiveSupport::TestCase
     assert_equal "-----BEGIN CERTIFICATE-----\nMIICRDCCAe6gAwIBAgIUSklhrx+sB2atjqwRbbQF3pNTlkcwDQYJKoZIhvcNAQEL\nBQAwaTELMAkGA1UEBhMCQ0ExDzANBgNVBAgMBlF1ZWJlYzERMA8GA1UEBwwITW9u\ndHJlYWwxDTALBgNVBAoMBG51MTIxFTATBgNVBAsMDGNlcnQtbWFuYWdlcjEQMA4G\nA1UEAwwHUm9vdCBDQTAeFw0yNjA0MjEwMzA0MzZaFw0yNjAxMDEwMDAwMDBaMHEx\nCzAJBgNVBAYTAkNBMQ8wDQYDVQQIDAZRdWViZWMxETAPBgNVBAcMCE1vbnRyZWFs\nMQ0wCwYDVQQKDARudTEyMRUwEwYDVQQLDAxjZXJ0LW1hbmFnZXIxGDAWBgNVBAMM\nD0ludGVybWVkaWF0ZSBDQTBcMA0GCSqGSIb3DQEBAQUAA0sAMEgCQQDNbszE7ECN\npTrv14or6aoxo1DU+88dQiQba2UTNviA73KgmN2dLvcNbcjHKQItzRKx1oYmNkEe\nMloTRXCpNjpDAgMBAAGjZjBkMB0GA1UdDgQWBBR+uRmMo6KFgeyYfVZ3WQEpi22X\n+zAfBgNVHSMEGDAWgBQ1aJ++9d/MogomNNRkkxsME7wqfTASBgNVHRMBAf8ECDAG\nAQH/AgEAMA4GA1UdDwEB/wQEAwIBhjANBgkqhkiG9w0BAQsFAANBAEHzeT91M7e7\n+D/lFX1bC0a3qiYs4IHsz7jpBIKdqya6eM8/JgB+NqzS7XtbmfUaUXu3D8sRPztR\nXg6NvTfpIZc=\n-----END CERTIFICATE-----\n", certificates(:intermediate).pem
     assert_equal "-----BEGIN CERTIFICATE-----\nMIICYjCCAgygAwIBAgIVAMD8AJa/G0WDJuZeZL5GcqiEWvUPMA0GCSqGSIb3DQEB\nCwUAMHExCzAJBgNVBAYTAkNBMQ8wDQYDVQQIDAZRdWViZWMxETAPBgNVBAcMCE1v\nbnRyZWFsMQ0wCwYDVQQKDARudTEyMRUwEwYDVQQLDAxjZXJ0LW1hbmFnZXIxGDAW\nBgNVBAMMD0ludGVybWVkaWF0ZSBDQTAeFw0yNjA0MjEwMzA1NTFaFw0yNjAxMDEw\nMDAwMDBaMHoxCzAJBgNVBAYTAkNBMQ8wDQYDVQQIDAZRdWViZWMxETAPBgNVBAcM\nCE1vbnRyZWFsMQ0wCwYDVQQKDARudTEyMRUwEwYDVQQLDAxjZXJ0LW1hbmFnZXIx\nITAfBgNVBAMMGGNlcnQtbWFuYWdlci5udTEyLmdpdGh1YjBcMA0GCSqGSIb3DQEB\nAQUAA0sAMEgCQQC1D0P0GE6osFHEBU6dXjCcdj1jhZN61T/rKYsxd1LXhgoIFaqh\nFW3JmxQr6v9WJFfUrTLn7GN/Vwx6bHRh5TwFAgMBAAGjcjBwMB0GA1UdDgQWBBQY\n6RK1yG3J2s+Th9S7BN3AwDBcRzAfBgNVHSMEGDAWgBR+uRmMo6KFgeyYfVZ3WQEp\ni22X+zAJBgNVHRMEAjAAMA4GA1UdDwEB/wQEAwIFoDATBgNVHSUEDDAKBggrBgEF\nBQcDATANBgkqhkiG9w0BAQsFAANBAHApIZEhbrfRcuq6MPaxc+zLpsN45/BWTUV8\nUS1dPeQTfJBt9IcATCoxHYqA0tmBX7DRLc1V2LmaelxxmeAdZX0=\n-----END CERTIFICATE-----\n", certificates(:server).pem
   end
+
+  test "presence" do
+    required = [ :country, :state, :location, :organization, :organization_unit, :common_name, :expirity_date ]
+    params = {
+      country: "Ok",
+      state: "Ok",
+      location: "Ok",
+      organization: "Ok",
+      organization_unit: "Ok",
+      common_name: "Ok",
+      expirity_date: "2030-01-01",
+      key: keys(:root),
+      user: users(:one)
+    }
+    assert Certificate.new(params).valid?
+    required.each do | r |
+      assert Certificate.new(params.reject { |k, v| k == r }).invalid?
+    end
+  end
 end
