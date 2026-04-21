@@ -25,7 +25,7 @@
       %nav.navbar.bg-body-tertiary
         .container-fluid
           %a.navbar-brand
-            %img.d-inline-block.align-text-top{:src => "https://getbootstrap.com/docs/5.3/assets/brand/bootstrap-logo.svg", :alt => "Logo", :width => "30", :height => "24"}
+            = image_tag("logo.png", alt: "Logo", width: "24", height: "24", class: "d-inline-block align-text-top")
             Cert-Manager
           .navbar-nav.me-auto
             = link_to "Home", root_path, { :class => "nav-link active", "aria-current" => "page" }  
