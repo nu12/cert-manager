@@ -23,5 +23,11 @@ module CertManager
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+
+    config.version = {
+      major: 0,
+      minor: 1,
+      patch: 0
+    }
   end
 end
