@@ -1,24 +1,81 @@
-# README
+# cert-manager
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Self-signed TLS certificates inventory system.
 
-Things you may want to cover:
+## Generator
 
-* Ruby version
+Life is too short. Use the generator to quickly create certificates:
 
-* System dependencies
+```
+rails g certificate --country <country> --state <state> --location <location> --organization <org> --organization-unit <unit> --common-name <my.domain.name>
+```
 
-* Configuration
+Files will be created under `storage/<my.domain.name>`, including root, intermediate and server certificates and their keys.
 
-* Database creation
+## Deployment (production)
 
-* Database initialization
+### Helm
 
-* How to run the test suite
+A secret with the keys for rails and lockbox is needed, but is not managed by the chart. Create the secret manually with the following command:
 
-* Services (job queues, cache servers, search engines, etc.)
+```
+cat <<EOF | kubectl apply -n cert-manager -f -
+apiVersion: v1
+kind: Secret
+metadata:
+  name: master-keys
+type: Opaque
+data:
+  rails: cGxhY2Vob2xkZXIK
+  lockbox: cGxhY2Vob2xkZXIK
+EOF
+```
 
-* Deployment instructions
+To deploy the chart:
 
-* ...
+```
+helm upgrade --install cert-manager helm/ -n cert-manager
+```
+
+### TLS with Gateway Api
+
+When creating a HTTPS endpoint via the Kubernetes Gateway API, a secret with the certificate and key is needed. Create it with the following command:
+
+```
+cat <<EOF | kubectl apply -n cert-manager -f -
+apiVersion: v1
+kind: Secret
+metadata:
+  name: cert-manager-tls
+type: Opaque
+data:
+  tls.crt: cGxhY2Vob2xkZXIK
+  tls.key: cGxhY2Vob2xkZXIK
+EOF
+```
+
+## Development
+
+Install gems:
+
+```
+bundle install
+```
+
+Create the database, migrate and seed for local developpment:
+
+```
+rails db:create && rails db:prepare
+```
+
+Run the application locally:
+
+```
+rails s -b 0.0.0.0
+```
+
+Access `localhost:3000`.
+
+## Release a new version
+
+Change the version in `config/application` and run `git tag $(bundle exec rake version | tr -d '"') && git push --tags`.

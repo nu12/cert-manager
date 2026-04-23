@@ -4,3 +4,11 @@
 require_relative "config/application"
 
 Rails.application.load_tasks
+
+task :version do
+  p "v%d.%d.%d" % [
+    CertManager::Application.config.version[:major],
+    CertManager::Application.config.version[:minor],
+    CertManager::Application.config.version[:patch]
+  ]
+end
