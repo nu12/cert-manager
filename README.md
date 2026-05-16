@@ -16,25 +16,30 @@ Files will be created under `storage/<my.domain.name>`, including root, intermed
 
 ### Helm
 
-A secret with the keys for rails and lockbox is needed, but is not managed by the chart. Create the secret manually with the following command:
+A secret with the following keys is needed, but is not managed by the chart. Create the secret manually with the following command and change the values as needed:
 
 ```
 cat <<EOF | kubectl apply -n cert-manager -f -
 apiVersion: v1
 kind: Secret
 metadata:
-  name: master-keys
+  name: cm
 type: Opaque
 data:
-  rails: cGxhY2Vob2xkZXIK
-  lockbox: cGxhY2Vob2xkZXIK
+  SECRET_KEY_BASE: cGxhY2Vob2xkZXIK
+  LOCKBOX_MASTER_KEY: cGxhY2Vob2xkZXIK
+  MAILER_FROM_ADDRESS: cGxhY2Vob2xkZXIK
+  SMTP_ADDRESS: cGxhY2Vob2xkZXIK
+  SMTP_PASSWORD: cGxhY2Vob2xkZXIK
+  SMTP_PORT: cGxhY2Vob2xkZXIK
+  SMTP_USERNAME: cGxhY2Vob2xkZXIK
 EOF
 ```
 
 To deploy the chart:
 
 ```
-helm upgrade --install cert-manager helm/ -n cert-manager
+helm upgrade --install cm helm/ -n cert-manager
 ```
 
 ### TLS with Gateway Api
