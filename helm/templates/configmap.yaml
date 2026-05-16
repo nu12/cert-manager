@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "cm.fullname" . }}
+data:
+  BASE_URL: {{ .Values.baseUrl }}
+  {{- with .Values.configMap }}
+  {{- toYaml . | nindent 2 }}
+  {{- end }}
