@@ -129,7 +129,6 @@ GEM
       railties (>= 5.1)
     i18n (1.14.8)
       concurrent-ruby (~> 1.0)
-    image_processing (2.0.1)
     importmap-rails (2.2.3)
       actionpack (>= 6.0.0)
       activesupport (>= 6.0.0)
@@ -400,7 +399,6 @@ DEPENDENCIES
   debug
   haml (~> 7.2)
   haml-rails (~> 3.0)
-  image_processing (~> 2.0)
   importmap-rails
   jbuilder
   kamal
