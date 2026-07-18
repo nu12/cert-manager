@@ -69,7 +69,7 @@ end
 
 gem "yaag", ">= 0.4.0"
 
-gem "haml-rails", "~> 3.0"
+gem "haml-rails", "~> 3.1"
 
 gem "haml", "~> 7.2"
 
