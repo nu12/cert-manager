@@ -118,7 +118,7 @@ GEM
       raabro (~> 1.4)
     globalid (1.4.0)
       activesupport (>= 6.1)
-    haml (7.4.1)
+    haml (7.5.0)
       prism (>= 1.1.0)
       temple (>= 0.8.2)
       thor
@@ -399,7 +399,7 @@ DEPENDENCIES
   bundler-audit
   capybara
   debug
-  haml (~> 7.4)
+  haml (~> 7.5)
   haml-rails (~> 3.1)
   importmap-rails
   jbuilder
