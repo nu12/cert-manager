@@ -75,4 +75,4 @@ gem "haml", "~> 7.5"
 
 gem "pundit", "~> 2.5"
 
-gem "lockbox", "~> 2.2"
+gem "lockbox", "~> 2.3"
